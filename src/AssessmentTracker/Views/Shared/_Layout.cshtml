@@ -5,12 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - benjanderson</title>
 	<link rel="stylesheet" href="~/css/bundle.min.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
 	@RenderBody()
-	<script src="~/js/bundle.min.js" asp-append-version="true"></script>
-	@*<script src="~/js/site.js" asp-append-version="true"></script>*@
+	<script src="~/js/bundle.min.js"></script>
 	@RenderSection("scripts", required: false)
 </body>
 </html>
