@@ -15,17 +15,11 @@ var config = {
 	paths: {
 		webroot: "./" + project.webroot + "/",
 		html: "Views/**/*.cshtml",
-		js: "App/**/*.js",
+		//js: "App/**/*.js",
+		js: "App/app.js",
 		siteLess: "Content/site.less"
 	}
 };
-
-gulp.task("browserify", function () {
-	gulp.src(config.paths.js)
-		.pipe(browserify())
-		.pipe(concat("bundle.min.js"))
-		.pipe(gulp.dest(config.paths.webroot + "/js/"));
-});
 
 gulp.task('html-watch', browserSync.reload);
 gulp.task('js-watch', ["browserify"], browserSync.reload);
@@ -50,11 +44,18 @@ gulp.task("serve", ["browserify", "css"], function () {
 
 gulp.task("css", function () {
 	gulp.src(config.paths.siteLess)
-		.pipe(gulpDebug())
 		.pipe(less())
 		.pipe(cssMin())
 		.pipe(concat("bundle.min.css"))
 		.pipe(gulp.dest("./" + project.webroot + "/css/"));
+});
+
+gulp.task("browserify", function () {
+	gulp.src(config.paths.js)
+		.pipe(gulpDebug())
+		.pipe(browserify())
+		.pipe(concat("bundle.min.js"))
+		.pipe(gulp.dest(config.paths.webroot + "/js/"));
 });
 
 //gulp.task("lint", function () {
