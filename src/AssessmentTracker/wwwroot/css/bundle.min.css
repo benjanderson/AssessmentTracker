@@ -7319,18 +7319,6 @@ fieldset[disabled] .btn-danger.active {
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-.ng-invalid .help-block,
-.ng-invalid .control-label,
-.ng-invalid .radio,
-.ng-invalid .checkbox,
-.ng-invalid .radio-inline,
-.ng-invalid .checkbox-inline,
-.ng-invalid.radio label,
-.ng-invalid.checkbox label,
-.ng-invalid.radio-inline label,
-.ng-invalid.checkbox-inline label {
-  color: #a94442;
-}
 .ng-invalid.form-control {
   border-color: #a94442;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);

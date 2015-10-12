@@ -11,6 +11,7 @@
 	uglify = require("gulp-uglify");
 
 var config = {
+	release: process.env.NODE_ENV && process.env.NODE_ENV !== 'Release',
 	port: 50937,
 	sitepath: "",
 	paths: {
@@ -21,6 +22,11 @@ var config = {
 		siteLess: "Content/site.less"
 	}
 };
+
+function swallowError(error) {
+	console.log(error.toString());
+	this.emit('end');
+}
 
 gulp.task('html-watch', browserSync.reload);
 gulp.task('js-watch', ["browserify"], browserSync.reload);
@@ -46,6 +52,7 @@ gulp.task("serve", ["browserify", "css"], function () {
 gulp.task("css", function () {
 	gulp.src(config.paths.siteLess)
 		.pipe(less())
+		.on('error', swallowError)
 		//.pipe(cssMin())
 		.pipe(concat("bundle.min.css"))
 		.pipe(gulp.dest("./" + project.webroot + "/css/"));
@@ -53,8 +60,10 @@ gulp.task("css", function () {
 
 gulp.task("browserify", function () {
 	gulp.src("App/app.js")
-		.pipe(gulpDebug())
-		.pipe(browserify())
+		.pipe(browserify({
+			debug: !config.release
+		}))
+		.on('error', swallowError)
 //		.pipe(uglify())
 		.pipe(concat("bundle.min.js"))
 		.pipe(gulp.dest(config.paths.webroot + "/js/"));
