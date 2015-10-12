@@ -1,0 +1,30 @@
+﻿<div class="container">
+	<h1>New Canidate</h1>
+
+	<form role="form">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input type="text" class="form-control" id="name" placeholder="Bob Smith" ng-model="NewCanidate.canidate.name" required>
+				</div>
+				<div class="form-group" show-validation>
+					<label for="position">Position</label>
+					<select class="form-control" id="position" name="position" ng-model="NewCanidate.canidate.position" ng-options="option.text for option in NewCanidate.positions track by option.value" required>
+						<option></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="assessment">Assessment</label>
+					<input type="file" id="assessment">
+					<p class="help-block">Archive of assessment project</p>
+				</div>
+				<div class="form-group">
+					<label for="resume">Resume</label>
+					<input type="file" id="resume">
+				</div>
+				<button type="submit" class="btn btn-success">Submit</button>
+			</div>
+		</div>
+	</form>
+</div>

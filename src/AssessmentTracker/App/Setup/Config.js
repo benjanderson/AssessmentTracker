@@ -1,16 +1,15 @@
-﻿module.exports = function ($stateProvider, $urlRouterProvider, $locationProvider) {
-	$locationProvider.html5Mode(true);
+﻿module.exports = ["$stateProvider", "$urlRouterProvider", "$locationProvider", function ($stateProvider, $urlRouterProvider, $locationProvider) {
 	$urlRouterProvider.otherwise('/home');
 
 	$stateProvider
     .state('home', {
     	url: '/home',
-    	templateUrl: 'home.html',
+    	templateUrl: 'templates/home.html',
     	controller: "HomeController as Home"
     })
   .state('NewCanidate', {
   	url: '/NewCanidate',
-  	templateUrl: 'NewCanidate.html',
+  	templateUrl: 'templates/newCanidate.html',
   	controller: "NewCanidateController as NewCanidate"
   });
-};
+}];
