@@ -1,5 +1,6 @@
 ﻿namespace AssessmentTracker
 {
+	using AssessmentTracker.DataAccess;
 	using AssessmentTracker.Models;
 
 	using Microsoft.AspNet.Authentication.Facebook;
@@ -43,7 +44,7 @@
 			services.AddEntityFramework()
 					.AddSqlServer()
 					.AddDbContext<AssessmentDbContext>(options =>
-							options.UseSqlServer(this.Configuration["Data:DefaultConnection:ConnectionString"]));
+							options.UseSqlServer(this.Configuration["ConnectionString"]));
 
 			// Add Identity services to the services container.
 			services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -57,7 +58,7 @@
 			// You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
 			// services.AddWebApiConventions();
 
-			// Register application services.
+			services.AddTransient<IAssessmentDbContext, AssessmentDbContext>();
 			services.AddInstance(this.Configuration);
 		}
 

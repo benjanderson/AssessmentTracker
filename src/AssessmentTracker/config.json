@@ -1,8 +1,3 @@
 ﻿{
-    "Message":  "This is my first ASP.net 5 site!",
-    "Data": {
-        "DefaultConnection": {
-            "ConnectionString": "Server=(localdb)\\mssqllocaldb;Database=aspnet5-benjanderson-141ce8ce-8639-4d7b-ad12-1e805fb2dbef;Trusted_Connection=True;MultipleActiveResultSets=true"
-        }
-    }
+    "ConnectionString": "Server=(local);Database=AssessmentTracker;Trusted_Connection=True;MultipleActiveResultSets=true"
 }
