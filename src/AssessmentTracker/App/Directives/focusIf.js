@@ -21,5 +21,5 @@
 	};
 }
 
-module.exports = focusIf;
+module.exports = ["$timeout", focusIf];
 

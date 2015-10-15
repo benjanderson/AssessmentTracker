@@ -17,6 +17,7 @@
     "angular-ui-router": "0.2.15",
     "gulp-less": "3.0.3",
     "gulp-browserify": "0.5.1",
-    "gulp-uglify": "1.4.1"
+    "gulp-uglify": "1.4.1",
+    "gulp-if": "2.0.0"
   }
 }

@@ -1,12 +1,20 @@
 ﻿<div class="container">
 	<h1>New Canidate</h1>
 
-	<form role="form">
+	<form name="canidate" role="form" ng-submit="NewCanidate.save()">
 		<div class="row">
 			<div class="col-md-4">
 				<div class="form-group">
 					<label for="name">Name</label>
-					<input type="text" class="form-control" id="name" placeholder="Bob Smith" ng-model="NewCanidate.canidate.name" required focus-if>
+					<input type="text" class="form-control" id="name" placeholder="Canidate Name" ng-model="NewCanidate.canidate.name" required focus-if>
+				</div>
+				<div class="form-group">
+					<label for="assessDate">Date of Submission</label>
+					<input type="date" class="form-control" id="assessDate" ng-model="NewCanidate.canidate.dateOfAssessment" required>
+				</div>
+				<div class="form-group">
+					<label for="dueDate">Evaluation Deadline</label>
+					<input type="date" class="form-control" id="dueDate" ng-model="NewCanidate.canidate.dateOfDeadline" required>
 				</div>
 				<div class="form-group" show-validation>
 					<label for="position">Position</label>
@@ -14,14 +22,18 @@
 						<option></option>
 					</select>
 				</div>
+				<div class="form-group" show-validation>
+					<label for="notes">Notes</label>
+					<textarea id="notes" name="notes" class="form-control" rows="8" ng-model="NewCanidate.canidate.notes"></textarea>
+				</div>
 				<div class="form-group">
 					<label for="assessment">Assessment</label>
-					<input type="file" id="assessment">
+					<input type="file" id="assessment" file-upload="NewCanidate.assessmentUpload" required>
 					<p class="help-block">Archive of assessment project</p>
 				</div>
 				<div class="form-group">
 					<label for="resume">Resume</label>
-					<input type="file" id="resume">
+					<input type="file" id="resume" file-upload="NewCanidate.resumeUpload" required>
 				</div>
 				<button type="submit" class="btn btn-success">Submit</button>
 			</div>

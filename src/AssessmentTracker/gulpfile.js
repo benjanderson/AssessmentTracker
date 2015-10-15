@@ -8,7 +8,8 @@
 	gulpDebug = require("gulp-debug"),
 	less = require("gulp-less"),
 	cssMin = require("gulp-cssmin"),
-	uglify = require("gulp-uglify");
+	uglify = require("gulp-uglify"),
+	gulpIf = require("gulp-if");
 
 var config = {
 	release: process.env.NODE_ENV && process.env.NODE_ENV !== 'Release',
@@ -32,7 +33,7 @@ gulp.task('html-watch', browserSync.reload);
 gulp.task('js-watch', ["browserify"], browserSync.reload);
 gulp.task("css-watch", ["css"], browserSync.reload);
 
-gulp.task("serve", ["browserify", "css"], function () {
+gulp.task("serve", function () {
 //	browserSync({
 //		proxy: {
 //			target: "http://localhost:" + config.port,
@@ -44,16 +45,13 @@ gulp.task("serve", ["browserify", "css"], function () {
 //		baseDir: config.paths.webroot
 //
 //	});
-	gulp.watch(config.paths.js, ["js-watch"]);
-	gulp.watch(config.paths.html, ["html-watch"]);
-	gulp.watch(config.paths.siteLess, ["css-watch"]);
 });
 
 gulp.task("css", function () {
 	gulp.src(config.paths.siteLess)
 		.pipe(less())
 		.on('error', swallowError)
-		//.pipe(cssMin())
+		.pipe(gulpIf(config.release, cssMin()))
 		.pipe(concat("bundle.min.css"))
 		.pipe(gulp.dest("./" + project.webroot + "/css/"));
 });
@@ -64,16 +62,14 @@ gulp.task("browserify", function () {
 			debug: !config.release
 		}))
 		.on('error', swallowError)
-//		.pipe(uglify())
+		.pipe(gulpIf(config.release, uglify()))
 		.pipe(concat("bundle.min.js"))
 		.pipe(gulp.dest(config.paths.webroot + "/js/"));
 });
 
-//gulp.task("lint", function () {
-//	return gulp.src(config.paths.js)
-//		.pipe(eslint({ config: "./eslint.config.json" }))
-//		.pipe(eslint.format())
-//		.pipe(eslint.failOnError());
-//});
 
-gulp.task("default", ["serve"]);
+gulp.task("default", ["browserify", "css", "serve"], function() {
+	gulp.watch(config.paths.js, ["js-watch"]);
+	gulp.watch(config.paths.html, ["html-watch"]);
+	gulp.watch(config.paths.siteLess, ["css-watch"]);
+});
