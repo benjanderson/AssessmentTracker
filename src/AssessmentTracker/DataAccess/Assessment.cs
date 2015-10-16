@@ -25,5 +25,7 @@
 		public int ResumeFileId { get; set; }
 
 		public virtual File ResumeFile { get; set; }
+
+		public bool Active { get; set; }
 	}
 }

@@ -72,19 +72,39 @@
 			var assessment = new Assessment
 				                 {
 					                 Person = person,
-													 DateOfSubmission = canidate.DateOfAssessment,
-													 DateOfDeadline = canidate.DateOfDeadline,
-													 Notes = canidate.Notes,
+					                 DateOfSubmission = canidate.DateOfAssessment,
+					                 DateOfDeadline = canidate.DateOfDeadline,
+					                 Notes = canidate.Notes,
 					                 Position = (Positions)Convert.ToInt32(canidate.Position.Value),
 					                 AssessmentFileId = assessmentFile.Id,
-					                 ResumeFileId = resumeFile.Id
+					                 ResumeFileId = resumeFile.Id,
+					                 Active = true
 				                 };
       this.assessmentContext.Assessments.Add(assessment);
 			this.assessmentContext.SaveChanges();
 			return this.Ok();
 		}
 
-		
+		[Route("Home/OpenAssessments")]
+		[HttpGet]
+		public IActionResult GetOpenAssessments()
+		{
+			var previews =
+				this.assessmentContext.Assessments.Where(assessment => assessment.Active)
+					.Select(
+						assessment =>
+						new AssessmentPreview
+							{
+								AssessmentId = assessment.Id,
+								DateDue = assessment.DateOfDeadline,
+								DateSubmitted = assessment.DateOfSubmission,
+								Name = assessment.Person.Name
+							})
+					.ToList();
+
+			var openAssessments = new OpenAssessments { AssessmentPreviews = previews };
+			return this.Ok(openAssessments);
+		}
 	}
 
 }

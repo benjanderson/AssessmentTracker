@@ -2,14 +2,19 @@
 	$urlRouterProvider.otherwise('/home');
 
 	$stateProvider
-    .state('home', {
-    	url: '/home',
-    	templateUrl: 'templates/home.html',
-    	controller: "HomeController as Home"
-    })
-  .state('NewCanidate', {
-  	url: '/NewCanidate',
-  	templateUrl: 'templates/newCanidate.html',
-  	controller: "NewCanidateController as NewCanidate"
-  });
+		.state('home', {
+			url: '/home',
+			templateUrl: 'templates/home.html',
+			controller: "HomeController as Home"
+		})
+		.state('newCanidate', {
+			url: '/canidate/0',
+			templateUrl: 'templates/canidate.html',
+			controller: "canidateController as canidate"
+		})
+		.state('editCanidate', {
+			url: '/canidate/:canidateId',
+			templateUrl: 'templates/canidate.html',
+			controller: "canidateController as canidate"
+		});
 }];

@@ -67,8 +67,13 @@ gulp.task("browserify", function () {
 		.pipe(gulp.dest(config.paths.webroot + "/js/"));
 });
 
+gulp.task("fonts", function() {
+	return gulp.src("node_modules/font-awesome/fonts/**.*")
+		.pipe(gulp.dest(config.paths.webroot + "/fonts/"));
+});
 
-gulp.task("default", ["browserify", "css", "serve"], function() {
+
+gulp.task("default", ["browserify", "css", "serve", "fonts"], function() {
 	gulp.watch(config.paths.js, ["js-watch"]);
 	gulp.watch(config.paths.html, ["html-watch"]);
 	gulp.watch(config.paths.siteLess, ["css-watch"]);

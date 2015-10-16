@@ -1,5 +1,9 @@
-﻿var controller = ["$scope", function($scope) {
-	this.message = "home controller";
+﻿module.exports = ["$http", function ($http) {
+	var ctrl = this;
+
+	$http.get("/home/openAssessments").then(function openAssessmentResponse(response) {
+		ctrl.openAssessments = response.data;
+	});
+	
 }];
 
-module.exports = controller;
