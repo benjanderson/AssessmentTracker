@@ -5,11 +5,6 @@ using System.Threading.Tasks;
 
 namespace AssessmentTracker.Models
 {
-	public class OpenAssessments
-	{
-		public List<AssessmentPreview> AssessmentPreviews { get; set; }
-	}
-
 	public class AssessmentPreview
 	{
 		public int AssessmentId { get; set; }

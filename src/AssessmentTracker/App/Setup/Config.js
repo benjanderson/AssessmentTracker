@@ -5,16 +5,16 @@
 		.state('home', {
 			url: '/home',
 			templateUrl: 'templates/home.html',
-			controller: "HomeController as Home"
+			controller: "homeController as home"
 		})
 		.state('newCanidate', {
 			url: '/canidate/0',
 			templateUrl: 'templates/canidate.html',
-			controller: "canidateController as canidate"
+			controller: "canidateController as can"
 		})
 		.state('editCanidate', {
-			url: '/canidate/:canidateId',
+			url: '/canidate/:assessmentId',
 			templateUrl: 'templates/canidate.html',
-			controller: "canidateController as canidate"
+			controller: "canidateController as can"
 		});
 }];

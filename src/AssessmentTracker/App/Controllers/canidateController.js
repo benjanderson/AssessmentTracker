@@ -1,52 +1,77 @@
-﻿module.exports = ["$http", function ($http) {
+﻿var toastr = require("toastr");
+module.exports = ["$http", "$stateParams", function ($http, $stateParams) {
 	var ctrl = this;
 	var assessment;
 	var resume;
-	ctrl.canidate = {
-		name: null,
-		position: null,
-		dateOfAssessment: new Date()
-	};
+	ctrl.showAssessmentFile = true;
+	ctrl.showResumeFile = true;
 
-	ctrl.positions = [
-		{ value: 1, text: "Intern" }, { value: 2, text: "Software Engineer" }, { value: 3, text: "Senior Software Engineer" }, { value: 4, text: "Software Tester" }, { value: 5, text: "Other" }
-	];
+	$http.get("positions").then((result) => {
+		ctrl.positions = result.data;
+	});
 
-	ctrl.assessmentUpload = function (files) {
-		assessment = files[0];
-		console.log("assessment");
+	if ($stateParams.assessmentId) {
+		$http.get("assessment", {
+			params: { assessmentId: $stateParams.assessmentId }
+		}).then((result) => {
+			result.data.dateOfAssessment = new Date(result.data.dateOfAssessment);
+			result.data.dateOfDeadline = new Date(result.data.dateOfDeadline);
+			ctrl.showAssessmentFile = false;
+			ctrl.showResumeFile = false;
+			ctrl.canidate = result.data;
+		});
+	} else {
+		ctrl.canidate = {
+			name: null,
+			position: null,
+			dateOfAssessment: new Date()
+		};
 	}
 
-	ctrl.resumeUpload = function (files) {
-		resume = files[0];
-		console.log("resume");
-	}
-
-	ctrl.save = function() {
+	function saveCanidate() {
 		$http({
-				method: "POST",
-				url: "Home/Canidate",
-				headers: { 'Content-Type': undefined },
-				transformRequest: function(data) {
-					var formData = new FormData();
-					//need to convert our json object to a string version of json otherwise
-					// the browser will do a 'toString()' on the object which will result 
-					// in the value '[Object object]' on the server.
-					formData.append("model", angular.toJson(data.model));
-					//now add all of the assigned files
-					for (var i = 0; i < data.files.length; i++) {
-						//add each file to the form data and iteratively name them
+			method: $stateParams.assessmentId ? "PUT" : "POST",
+			url: "assessment",
+			headers: { 'Content-Type': undefined },
+			transformRequest: function (data) {
+				var formData = new FormData();
+				formData.append("model", angular.toJson(data.model));
+				for (var i = 0; i < data.files.length; i++) {
+					if (data.files[i]) {
 						formData.append("file" + i, data.files[i]);
 					}
-					return formData;
-				},
-				data: { model: ctrl.canidate, files: [assessment, resume] }
+				}
+				return formData;
+			},
+			data: { model: ctrl.canidate, files: [assessment, resume] }
+		}).
+			success(function (data, status, headers, config) {
+				toastr.success('Successfully Saved!');
 			}).
-			success(function(data, status, headers, config) {
-				alert("success!");
-			}).
-			error(function(data, status, headers, config) {
-				alert("failed!");
+			error(function (data, status, headers, config) {
+				toastr.error(status, 'Error Saving');
 			});
 	}
+
+	function resumeUpload(files) {
+		resume = files[0];
+	}
+
+	function assessmentUpload(files) {
+		assessment = files[0];
+	}
+
+	function showAssessment() {
+		ctrl.showAssessmentFile = true;
+	}
+
+	function showResume() {
+		ctrl.showResumeFile = true;
+	}
+
+	ctrl.save = saveCanidate;
+	ctrl.assessmentUpload = assessmentUpload;
+	ctrl.resumeUpload = resumeUpload;
+	ctrl.showResume = showResume;
+	ctrl.showAssessment = showAssessment;
 }];

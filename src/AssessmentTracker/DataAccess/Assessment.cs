@@ -1,6 +1,7 @@
 ﻿namespace AssessmentTracker.DataAccess
 {
 	using System;
+	using System.ComponentModel.DataAnnotations.Schema;
 
 	public class Assessment : IEntity
 	{
@@ -20,11 +21,13 @@
 
 		public int AssessmentFileId { get; set; }
 
-		public virtual File AssessmentFile { get; set; }
+		[ForeignKey("AssessmentFileId")]
+		public virtual DbFile AssessmentDbFile { get; set; }
 
 		public int ResumeFileId { get; set; }
 
-		public virtual File ResumeFile { get; set; }
+		[ForeignKey("ResumeFileId")]
+		public virtual DbFile ResumeDbFile { get; set; }
 
 		public bool Active { get; set; }
 	}

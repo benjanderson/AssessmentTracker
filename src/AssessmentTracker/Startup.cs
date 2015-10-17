@@ -15,6 +15,8 @@
 	using Microsoft.Framework.DependencyInjection;
 	using Microsoft.Framework.Logging;
 
+	using Newtonsoft.Json.Serialization;
+
 	public class Startup
     {
 		public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
@@ -52,7 +54,11 @@
 					.AddDefaultTokenProviders();
 
 			// Add MVC services to the services container.
-			services.AddMvc();
+			services.AddMvc().AddJsonOptions(options =>
+			{
+				options.SerializerSettings.ContractResolver =
+						new CamelCasePropertyNamesContractResolver();
+			});
 
 			// Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
 			// You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.

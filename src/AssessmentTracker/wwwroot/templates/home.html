@@ -10,15 +10,12 @@
 		</tr>
 		</thead>
 		<tbody>
-		<tr ng-repeat="row in Home.openAssessments.AssessmentPreviews">
-			<td><a ui-sref="editCanidate({canidateId: row.AssessmentId})"><i class="fa fa-fw fa-pencil"></i></a></td>
-			<td ng-bind="row.Name"></td>
-			<td ng-bind="row.DateSubmitted | date: 'MM/dd/yyyy'"></td>
-			<td ng-bind="row.DateDue | date: 'MM/dd/yyyy'"></td>
+		<tr ng-repeat="row in home.openAssessments">
+			<td><a ui-sref="editCanidate({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-pencil"></i></a></td>
+			<td ng-bind="row.name"></td>
+			<td ng-bind="row.dateSubmitted | date: 'MM/dd/yyyy'"></td>
+			<td ng-bind="row.dateDue | date: 'MM/dd/yyyy'"></td>
 		</tr>
 		</tbody>
 	</table>
-
-
-	
 </div>

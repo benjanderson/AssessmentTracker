@@ -8,6 +8,8 @@ namespace AssessmentTracker.Models
 
 	public class Canidate
 	{
+		public int Id { get; set; }
+
 		public string Name { get; set; }
 
 		public DateTime DateOfAssessment { get; set; }
@@ -17,5 +19,7 @@ namespace AssessmentTracker.Models
 		public Option Position { get; set; }
 
 		public string Notes { get; set; }
+
+		public bool Active { get; set; }
 	}
 }

@@ -9,9 +9,14 @@ using Microsoft.Data.Entity.SqlServer.Metadata;
 namespace AssessmentTracker.Migrations
 {
     [DbContext(typeof(AssessmentDbContext))]
-    partial class AssessmentDbContextModelSnapshot : ModelSnapshot
+    partial class DbFileChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        public override string Id
+        {
+            get { return "20151017201533_DbFileChanges"; }
+        }
+
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .Annotation("ProductVersion", "7.0.0-beta7-15540")
@@ -24,6 +29,8 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<bool>("Active");
 
+                    b.Property<int?>("AssessmentDbFileId");
+
                     b.Property<int>("AssessmentFileId");
 
                     b.Property<DateTime>("DateOfDeadline");
@@ -35,6 +42,8 @@ namespace AssessmentTracker.Migrations
                     b.Property<int>("PersonId");
 
                     b.Property<int>("Position");
+
+                    b.Property<int?>("ResumeDbFileId");
 
                     b.Property<int>("ResumeFileId");
 
@@ -69,7 +78,7 @@ namespace AssessmentTracker.Migrations
                 {
                     b.Reference("AssessmentTracker.DataAccess.DbFile")
                         .InverseCollection()
-                        .ForeignKey("AssessmentFileId");
+                        .ForeignKey("AssessmentDbFileId");
 
                     b.Reference("AssessmentTracker.DataAccess.Person")
                         .InverseCollection()
@@ -77,7 +86,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Reference("AssessmentTracker.DataAccess.DbFile")
                         .InverseCollection()
-                        .ForeignKey("ResumeFileId");
+                        .ForeignKey("ResumeDbFileId");
                 });
         }
     }

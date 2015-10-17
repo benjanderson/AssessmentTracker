@@ -8,18 +8,23 @@
 
 		DbSet<Assessment> Assessments { get; set; }
 
-		DbSet<File> Files { get; set; }
+		DbSet<DbFile> Files { get; set; }
 
 		int SaveChanges();
 	}
 
-	public class AssessmentDbContext : DbContext, IAssessmentDbContext
+	public sealed class AssessmentDbContext : DbContext, IAssessmentDbContext
 	{
+		public AssessmentDbContext()
+		{
+			this.Database.EnsureCreated();
+		}
+
 		public DbSet<Person> Persons { get; set; }
 
 		public DbSet<Assessment> Assessments { get; set; }
 
-		public DbSet<File> Files { get; set; }
+		public DbSet<DbFile> Files { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
