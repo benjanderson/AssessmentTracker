@@ -1,10 +1,9 @@
 ﻿var toastr = require("toastr");
-module.exports = ["$http", "$stateParams", function ($http, $stateParams) {
+module.exports = ["$http", "$stateParams", "$state", function ($http, $stateParams, $state) {
 	var ctrl = this;
 	var assessment;
 	var resume;
-	ctrl.showAssessmentFile = true;
-	ctrl.showResumeFile = true;
+	ctrl.showFiles = true;
 
 	$http.get("positions").then((result) => {
 		ctrl.positions = result.data;
@@ -16,9 +15,10 @@ module.exports = ["$http", "$stateParams", function ($http, $stateParams) {
 		}).then((result) => {
 			result.data.dateOfAssessment = new Date(result.data.dateOfAssessment);
 			result.data.dateOfDeadline = new Date(result.data.dateOfDeadline);
-			ctrl.showAssessmentFile = false;
-			ctrl.showResumeFile = false;
+			ctrl.showFiles = false;
 			ctrl.canidate = result.data;
+			ctrl.assessmentUrl = "files/" + ctrl.canidate.assessmentFileId + "/" + encodeURI(ctrl.canidate.assessmentFileName);
+			ctrl.resumeUrl = "files/" + ctrl.canidate.resumeFileId + "/" + encodeURI(ctrl.canidate.resumeFileName);
 		});
 	} else {
 		ctrl.canidate = {
@@ -46,6 +46,7 @@ module.exports = ["$http", "$stateParams", function ($http, $stateParams) {
 			data: { model: ctrl.canidate, files: [assessment, resume] }
 		}).
 			success(function (data, status, headers, config) {
+				$state.go("home");
 				toastr.success('Successfully Saved!');
 			}).
 			error(function (data, status, headers, config) {
@@ -61,17 +62,12 @@ module.exports = ["$http", "$stateParams", function ($http, $stateParams) {
 		assessment = files[0];
 	}
 
-	function showAssessment() {
-		ctrl.showAssessmentFile = true;
-	}
-
-	function showResume() {
-		ctrl.showResumeFile = true;
+	function replaceFiles() {
+		ctrl.showFiles = true;
 	}
 
 	ctrl.save = saveCanidate;
 	ctrl.assessmentUpload = assessmentUpload;
 	ctrl.resumeUpload = resumeUpload;
-	ctrl.showResume = showResume;
-	ctrl.showAssessment = showAssessment;
+	ctrl.replaceFiles = replaceFiles;
 }];

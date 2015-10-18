@@ -16,5 +16,10 @@
 			url: '/canidate/:assessmentId',
 			templateUrl: 'templates/canidate.html',
 			controller: "canidateController as can"
+		})
+		.state("assessment", {
+			url: "/assessment/:assessmentId",
+			templateUrl: "templates/assessment.html",
+			controller: "assessmentController as assess"
 		});
 }];

@@ -18,6 +18,9 @@
 
 	public class HomeController : Controller
 	{
+		private const int AssessmentIndex = 0;
+		private const int ResumeIndex = 1;
+
 		private readonly AssessmentDbContext assessmentContext;
 
 		public HomeController(AssessmentDbContext assessmentContext)
@@ -51,18 +54,18 @@
 			var assessmentFile = new DbFile
 				                     {
 					                     FileName =
-						                     ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'),
-					                     Contents = files[0].ReadFile(),
-                               ContentType = files[0].ContentType
+						                     ContentDispositionHeaderValue.Parse(files[AssessmentIndex].ContentDisposition).FileName.Trim('"'),
+					                     Contents = files[AssessmentIndex].ReadFile(),
+                               ContentType = files[AssessmentIndex].ContentType
 			};
 			this.assessmentContext.Files.Add(assessmentFile);
 
 			var resumeFile = new DbFile
 				                 {
 					                 FileName =
-						                 ContentDispositionHeaderValue.Parse(files[1].ContentDisposition).FileName.Trim('"'),
-					                 Contents = files[1].ReadFile(),
-													 ContentType = files[1].ContentType
+						                 ContentDispositionHeaderValue.Parse(files[ResumeIndex].ContentDisposition).FileName.Trim('"'),
+					                 Contents = files[ResumeIndex].ReadFile(),
+													 ContentType = files[ResumeIndex].ContentType
 				                 };
 			this.assessmentContext.Files.Add(resumeFile);
 
@@ -105,7 +108,10 @@
 				return this.HttpBadRequest();
 			}
 			
-			var assessment = await this.assessmentContext.Assessments.Include(a => a.Person)
+			var assessment = await this.assessmentContext.Assessments
+				.Include(a => a.AssessmentDbFile)
+				.Include(a => a.ResumeDbFile)
+				.Include(a => a.Person)
 				.FirstOrDefaultAsync(a => a.Id == canidate.Id);
 
 			if (assessment == null)
@@ -119,6 +125,19 @@
 			assessment.Notes = canidate.Notes;
 			assessment.Position = (Positions)Convert.ToInt32(canidate.Position.Value);
 			assessment.Active = canidate.Active;
+
+			if (files.Count() == 2)
+			{
+				assessment.AssessmentDbFile.FileName =
+					ContentDispositionHeaderValue.Parse(files[AssessmentIndex].ContentDisposition).FileName.Trim('"');
+        assessment.AssessmentDbFile.Contents = files[AssessmentIndex].ReadFile();
+				assessment.AssessmentDbFile.ContentType = files[AssessmentIndex].ContentType;
+
+				assessment.ResumeDbFile.FileName = ContentDispositionHeaderValue.Parse(files[ResumeIndex].ContentDisposition).FileName.Trim('"');
+				assessment.ResumeDbFile.Contents = files[ResumeIndex].ReadFile();
+				assessment.ResumeDbFile.ContentType = files[ResumeIndex].ContentType;
+			}
+
 			await this.assessmentContext.SaveChangesAsync();
 
 			return this.Ok();
@@ -145,10 +164,14 @@
 										{
 											Text = canidate.Position.ToString().ToSentenceCase(),
 											Value = ((int)canidate.Position).ToString()
-										}
+										},
+								AssessmentFileId = canidate.AssessmentFileId,
+								AssessmentFileName = canidate.AssessmentDbFile.FileName,
+								ResumeFileId = canidate.ResumeFileId,
+								ResumeFileName = canidate.ResumeDbFile.FileName
 							})
 					.FirstOrDefaultAsync();
-
+			
 			return this.Json(assessment);
 		}
 
@@ -179,6 +202,17 @@
 					.ToListAsync();
 
 			return this.Ok(previews);
+		}
+
+		[Route("files/{fileId:int}/{fileName}")]
+		public async Task<IActionResult> GetFile(int fileId, string fileName)
+		{
+			var dbFile = await this.assessmentContext.Files.FirstOrDefaultAsync(file => file.Id == fileId);
+			if (dbFile == null)
+			{
+				return this.HttpBadRequest("No such file exists");
+			}
+			return this.File(dbFile.Contents, dbFile.ContentType);
 		}
 	}
 

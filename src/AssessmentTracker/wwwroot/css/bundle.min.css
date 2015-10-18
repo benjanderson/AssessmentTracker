@@ -9572,6 +9572,13 @@ button.toast-close-button {
 .ng-invalid .form-control-feedback {
   color: #333333;
 }
-.table-hover > tbody > tr:hover {
-  cursor: pointer;
+.anchor-table td {
+  overflow: hidden;
+}
+.anchor-table td a {
+  display: block;
+  margin: -10em;
+  padding: 10em;
+  text-decoration: none;
+  color: #000000;
 }

@@ -21,5 +21,13 @@ namespace AssessmentTracker.Models
 		public string Notes { get; set; }
 
 		public bool Active { get; set; }
+
+		public int AssessmentFileId { get; set; }
+
+		public string AssessmentFileName { get; set; }
+
+		public int ResumeFileId { get; set; }
+
+		public string ResumeFileName { get; set; }
 	}
 }

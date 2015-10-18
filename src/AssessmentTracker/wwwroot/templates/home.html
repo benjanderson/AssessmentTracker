@@ -1,6 +1,6 @@
 ﻿<div class="container">
 	<h1>Pending Assessments</h1>
-	<table class="table table-striped table-hover">
+	<table class="table table-striped table-hover anchor-table">
 		<thead>
 		<tr>
 			<th></th>
@@ -12,9 +12,9 @@
 		<tbody>
 		<tr ng-repeat="row in home.openAssessments">
 			<td><a ui-sref="editCanidate({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-pencil"></i></a></td>
-			<td ng-bind="row.name"></td>
-			<td ng-bind="row.dateSubmitted | date: 'MM/dd/yyyy'"></td>
-			<td ng-bind="row.dateDue | date: 'MM/dd/yyyy'"></td>
+			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.name"></a></td>
+			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.dateSubmitted | date: 'MM/dd/yyyy'"></a></td>
+			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.dateDue | date: 'MM/dd/yyyy'"></a></td>
 		</tr>
 		</tbody>
 	</table>
