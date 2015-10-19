@@ -1,5 +1,5 @@
 ﻿var toastr = require("toastr");
-module.exports = ["$http", "$stateParams", "$state", function ($http, $stateParams, $state) {
+module.exports = ["$http", "$stateParams", "$state", "canidateRepository", function ($http, $stateParams, $state, canidateRepository) {
 	var ctrl = this;
 	var assessment;
 	var resume;
@@ -10,13 +10,11 @@ module.exports = ["$http", "$stateParams", "$state", function ($http, $statePara
 	});
 
 	if ($stateParams.assessmentId) {
-		$http.get("assessment", {
-			params: { assessmentId: $stateParams.assessmentId }
-		}).then((result) => {
-			result.data.dateOfAssessment = new Date(result.data.dateOfAssessment);
-			result.data.dateOfDeadline = new Date(result.data.dateOfDeadline);
+		canidateRepository.getCanidate($stateParams.assessmentId).then((result) => {
+			result.dateOfAssessment = new Date(result.dateOfAssessment);
+			result.dateOfDeadline = new Date(result.dateOfDeadline);
 			ctrl.showFiles = false;
-			ctrl.canidate = result.data;
+			ctrl.canidate = result;
 			ctrl.assessmentUrl = "files/" + ctrl.canidate.assessmentFileId + "/" + encodeURI(ctrl.canidate.assessmentFileName);
 			ctrl.resumeUrl = "files/" + ctrl.canidate.resumeFileId + "/" + encodeURI(ctrl.canidate.resumeFileName);
 		});
@@ -29,27 +27,11 @@ module.exports = ["$http", "$stateParams", "$state", function ($http, $statePara
 	}
 
 	function saveCanidate() {
-		$http({
-			method: $stateParams.assessmentId ? "PUT" : "POST",
-			url: "assessment",
-			headers: { 'Content-Type': undefined },
-			transformRequest: function (data) {
-				var formData = new FormData();
-				formData.append("model", angular.toJson(data.model));
-				for (var i = 0; i < data.files.length; i++) {
-					if (data.files[i]) {
-						formData.append("file" + i, data.files[i]);
-					}
-				}
-				return formData;
-			},
-			data: { model: ctrl.canidate, files: [assessment, resume] }
-		}).
-			success(function (data, status, headers, config) {
+		canidateRepository.saveCanidate(ctrl.canidate, ctrl.assessment, ctrl.resume, $stateParams.assessmentId ? "PUT" : "POST")
+			.success(() => {
 				$state.go("home");
 				toastr.success('Successfully Saved!');
-			}).
-			error(function (data, status, headers, config) {
+			}).error(() => {
 				toastr.error(status, 'Error Saving');
 			});
 	}
