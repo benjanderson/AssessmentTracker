@@ -1,3 +1,10 @@
 ﻿<div class="container">
-	asdf
+	<div class="jumbotron">
+		<h1><span ng-bind="assess.assessment.name"></span> <small ng-bind="assess.assessment.position.text"></small></h1>
+		<p ng-bind="assess.assessment.notes"></p>
+		<a class="btn btn-default" href="#"><i class="fa fa-file-pdf-o"></i>&nbsp;Resume</a>
+		<a class="btn btn-default" href="#"><i class="fa fa-file-archive-o"></i>&nbsp;Assessment Archive</a>
+	</div>
+	{{ assess.assessment | json }}
+
 </div>

@@ -20,6 +20,7 @@
     "gulp-uglify": "1.4.1",
     "gulp-if": "2.0.0",
     "font-awesome": "4.4.0",
-    "toastr": "2.1.2"
+    "toastr": "2.1.2",
+    "gulp-sourcemaps": "1.6.0"
   }
 }

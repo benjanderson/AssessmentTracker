@@ -4989,8 +4989,8 @@ a.badge:focus {
   padding-top: 30px;
   padding-bottom: 30px;
   margin-bottom: 30px;
-  color: inherit;
-  background-color: #eeeeee;
+  color: #FFFFFF;
+  background-color: #1d9d74;
 }
 .jumbotron h1,
 .jumbotron .h1 {
@@ -5002,7 +5002,7 @@ a.badge:focus {
   font-weight: 200;
 }
 .jumbotron > hr {
-  border-top-color: #d5d5d5;
+  border-top-color: #157254;
 }
 .container .jumbotron,
 .container-fluid .jumbotron {
@@ -9553,6 +9553,9 @@ button.toast-close-button {
     padding: 15px 15px 15px 50px;
     width: 25em;
   }
+}
+h1 small {
+  color: #ace;
 }
 .ng-invalid.form-control {
   border-color: #a94442;

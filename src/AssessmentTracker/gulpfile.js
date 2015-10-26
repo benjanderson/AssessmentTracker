@@ -1,5 +1,6 @@
 ﻿var gulp = require("gulp"),
-	browserify = require("gulp-browserify"),
+	browserify = require("browserify"),
+	gulpBrowserify = require("gulp-browserify"),
 	project = require("./project.json"),
 	browserSync = require("browser-sync"),
 	source = require("vinyl-source-stream"),
@@ -9,7 +10,8 @@
 	less = require("gulp-less"),
 	cssMin = require("gulp-cssmin"),
 	uglify = require("gulp-uglify"),
-	gulpIf = require("gulp-if");
+	gulpIf = require("gulp-if"),
+	sourcemaps = require('gulp-sourcemaps');
 
 var config = {
 	release: process.env.NODE_ENV && process.env.NODE_ENV !== 'Release',
@@ -19,7 +21,7 @@ var config = {
 		webroot: "./" + project.webroot + "/",
 		html: ["Views/**/*.cshtml",
 		"./" + project.webroot + "/templates/**/*.html"],
-		js: "App/**/*.js",
+		js: "Scripts/**/*.js",
 		siteLess: "Content/site.less"
 	}
 };
@@ -34,46 +36,45 @@ gulp.task('js-watch', ["browserify"], browserSync.reload);
 gulp.task("css-watch", ["css"], browserSync.reload);
 
 gulp.task("serve", function () {
-//	browserSync({
-//		proxy: {
-//			target: "http://localhost:" + config.port,
-//			middleware: function (req, res, next) {
-//				res.setHeader('Access-Control-Allow-Origin', '*');
-//				next();
-//			}
-//		},
-//		baseDir: config.paths.webroot
-//
-//	});
+	//	browserSync({
+	//		proxy: {
+	//			target: "http://localhost:" + config.port,
+	//			middleware: function (req, res, next) {
+	//				res.setHeader('Access-Control-Allow-Origin', '*');
+	//				next();
+	//			}
+	//		},
+	//		baseDir: config.paths.webroot
+	//
+	//	});
 });
 
 gulp.task("css", function () {
 	gulp.src(config.paths.siteLess)
+		.pipe(sourcemaps.init())
 		.pipe(less())
+		.pipe(sourcemaps.write())
 		.on('error', swallowError)
 		.pipe(gulpIf(config.release, cssMin()))
-		.pipe(concat("bundle.min.css"))
 		.pipe(gulp.dest("./" + project.webroot + "/css/"));
 });
 
 gulp.task("browserify", function () {
-	gulp.src("App/app.js")
-		.pipe(browserify({
-			debug: !config.release
-		}))
+	return browserify({ debug: true, entries: ["./Scripts/app.js"] })
+		.bundle()
 		.on('error', swallowError)
 		.pipe(gulpIf(config.release, uglify()))
-		.pipe(concat("bundle.min.js"))
+		.pipe(source("bundle.min.js"))
 		.pipe(gulp.dest(config.paths.webroot + "/js/"));
 });
 
-gulp.task("fonts", function() {
+gulp.task("fonts", function () {
 	return gulp.src("node_modules/font-awesome/fonts/**.*")
 		.pipe(gulp.dest(config.paths.webroot + "/fonts/"));
 });
 
 
-gulp.task("default", ["browserify", "css", "serve", "fonts"], function() {
+gulp.task("default", ["browserify", "css", "serve", "fonts"], function () {
 	gulp.watch(config.paths.js, ["js-watch"]);
 	gulp.watch(config.paths.html, ["html-watch"]);
 	gulp.watch(config.paths.siteLess, ["css-watch"]);

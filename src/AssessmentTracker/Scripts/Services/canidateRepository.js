@@ -1,7 +1,5 @@
 ﻿module.exports = [
-	"$http",
-	($http) => {
-
+	"$http", ($http) => {
 		var svc = this;
 
 		function getCanidate(id) {
@@ -11,6 +9,13 @@
 				return result.data;
 			});
 		};
+
+		function getOpenAssessments() {
+			return $http.get("openAssessments")
+				.then((result) => {
+					return result.data;
+				});
+		}
 
 		function saveCanidate(canidate, assessmentFile, resumeFile, httpMethod) {
 			return $http({
@@ -33,6 +38,7 @@
 
 		svc.getCanidate = getCanidate;
 		svc.saveCanidate = saveCanidate;
+		svc.getOpenAssessments = getOpenAssessments;
 		return svc;
 	}
 ];
