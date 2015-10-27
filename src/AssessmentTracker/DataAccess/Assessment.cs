@@ -1,4 +1,7 @@
-﻿namespace AssessmentTracker.DataAccess
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace AssessmentTracker.DataAccess
 {
 	using System;
 	using System.ComponentModel.DataAnnotations.Schema;
@@ -29,6 +32,9 @@
 		[ForeignKey("ResumeFileId")]
 		public virtual DbFile ResumeDbFile { get; set; }
 
+		[DefaultValue(true)]
 		public bool Active { get; set; }
-	}
+
+		public ICollection<PersonAssessment> PersonAssessments { get; set; }
+  }
 }

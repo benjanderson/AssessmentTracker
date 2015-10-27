@@ -17,6 +17,22 @@ namespace AssessmentTracker.Migrations
                 .Annotation("ProductVersion", "7.0.0-beta7-15540")
                 .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AssessmentTracker.DataAccess.Answers", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comments");
+
+                    b.Property<int>("PersonAssessmentId");
+
+                    b.Property<int>("QuestionId");
+
+                    b.Property<int>("Rating");
+
+                    b.Key("Id");
+                });
+
             modelBuilder.Entity("AssessmentTracker.DataAccess.Assessment", b =>
                 {
                     b.Property<int>("Id")
@@ -65,6 +81,39 @@ namespace AssessmentTracker.Migrations
                     b.Key("Id");
                 });
 
+            modelBuilder.Entity("AssessmentTracker.DataAccess.PersonAssessment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssessmentId");
+
+                    b.Property<int>("PersonId");
+
+                    b.Key("Id");
+                });
+
+            modelBuilder.Entity("AssessmentTracker.DataAccess.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Text");
+
+                    b.Key("Id");
+                });
+
+            modelBuilder.Entity("AssessmentTracker.DataAccess.Answers", b =>
+                {
+                    b.Reference("AssessmentTracker.DataAccess.PersonAssessment")
+                        .InverseCollection()
+                        .ForeignKey("PersonAssessmentId");
+
+                    b.Reference("AssessmentTracker.DataAccess.Question")
+                        .InverseCollection()
+                        .ForeignKey("QuestionId");
+                });
+
             modelBuilder.Entity("AssessmentTracker.DataAccess.Assessment", b =>
                 {
                     b.Reference("AssessmentTracker.DataAccess.DbFile")
@@ -78,6 +127,17 @@ namespace AssessmentTracker.Migrations
                     b.Reference("AssessmentTracker.DataAccess.DbFile")
                         .InverseCollection()
                         .ForeignKey("ResumeFileId");
+                });
+
+            modelBuilder.Entity("AssessmentTracker.DataAccess.PersonAssessment", b =>
+                {
+                    b.Reference("AssessmentTracker.DataAccess.Assessment")
+                        .InverseCollection()
+                        .ForeignKey("AssessmentId");
+
+                    b.Reference("AssessmentTracker.DataAccess.Person")
+                        .InverseCollection()
+                        .ForeignKey("PersonId");
                 });
         }
     }
