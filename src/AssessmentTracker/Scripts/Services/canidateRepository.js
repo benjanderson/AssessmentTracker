@@ -32,7 +32,7 @@
 					}
 					return formData;
 				},
-				data: { model: canidate, files: [assessmentFile, resume] }
+				data: { model: canidate, files: [assessmentFile, resumeFile] }
 			});
 		};
 

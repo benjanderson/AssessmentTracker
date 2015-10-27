@@ -22,7 +22,8 @@ module.exports = ["$http", "$stateParams", "$state", "canidateRepository", funct
 		ctrl.canidate = {
 			name: null,
 			position: null,
-			dateOfAssessment: new Date()
+			dateOfAssessment: new Date(),
+			active: true
 		};
 	}
 
@@ -37,11 +38,11 @@ module.exports = ["$http", "$stateParams", "$state", "canidateRepository", funct
 	}
 
 	function resumeUpload(files) {
-		resume = files[0];
+		ctrl.resume = files[0];
 	}
 
 	function assessmentUpload(files) {
-		assessment = files[0];
+		ctrl.assessment = files[0];
 	}
 
 	function replaceFiles() {
