@@ -1,11 +1,25 @@
 ﻿<div class="container">
 	<div class="jumbotron">
-		<h1><span ng-bind="assess.assessment.name"></span> <small ng-bind="assess.assessment.position.text"></small>
+		<h1>
+			<span ng-bind="assess.assessment.name"></span> <small ng-bind="assess.assessment.position.text"></small>
 		</h1>
-		<a class="btn btn-default" href="#"><i class="fa fa-file-pdf-o"></i>&nbsp;Resume</a>
-		<a class="btn btn-default" href="#"><i class="fa fa-file-archive-o"></i>&nbsp;Assessment Archive</a>
+		<a class="btn btn-default" ng-href="{{ assess.resumeUrl }}"><i class="fa fa-file-pdf-o"></i>&nbsp;Resume</a>
+		<a class="btn btn-default" ng-href="{{ assess.assessmentUrl }}"><i class="fa fa-file-archive-o"></i>&nbsp;Assessment Archive</a>
 	</div>
 	<p ng-bind="assess.assessment.notes"></p>
-	{{ assess.assessment | json }}
 
+	<table>
+		<thead>
+		<tr>
+			<th>
+				Question
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="question in assess.questions">
+				<td markdown="question.text"></td>
+			</tr>
+		</tbody>
+	</table>
 </div>

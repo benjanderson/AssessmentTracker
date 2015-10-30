@@ -8,9 +8,10 @@
 /// <reference path="scripts/Directives/fileUpload.js" />
 /// <reference path="scripts/Directives/focusIf.js" />
 /// <reference path="scripts/Directives/Index.js" />
+/// <reference path="scripts/directives/ngmarkdown.js" />
 /// <reference path="scripts/Services/canidateRepository.js" />
 /// <reference path="scripts/services/index.js" />
 /// <reference path="scripts/Setup/Config.js" />
 /// <reference path="scripts/Setup/Index.js" />
-/// <reference path="wwwroot/js/bundle.min.js" />
+/// <reference path="wwwroot/js/app.js" />
 

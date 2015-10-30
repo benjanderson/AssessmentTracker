@@ -204,6 +204,15 @@
 			return this.Ok(previews);
 		}
 
+		[Route("questions")]
+		[HttpGet]
+		public async Task<IActionResult> GetQuestions(int assessmentId)
+		{
+			var questions =
+				await this.assessmentContext.Questions.Select(question => new { question.Id, question.Text }).ToListAsync();
+			return this.Ok(questions);
+		}
+
 		[Route("files/{fileId:int}/{fileName}")]
 		public async Task<IActionResult> GetFile(int fileId, string fileName)
 		{
@@ -215,5 +224,4 @@
 			return this.File(dbFile.Contents, dbFile.ContentType);
 		}
 	}
-
 }

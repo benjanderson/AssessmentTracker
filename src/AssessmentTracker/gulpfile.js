@@ -64,7 +64,7 @@ gulp.task("browserify", function () {
 		.bundle()
 		.on('error', swallowError)
 		.pipe(gulpIf(config.release, uglify()))
-		.pipe(source("bundle.min.js"))
+		.pipe(source("app.js"))
 		.pipe(gulp.dest(config.paths.webroot + "/js/"));
 });
 

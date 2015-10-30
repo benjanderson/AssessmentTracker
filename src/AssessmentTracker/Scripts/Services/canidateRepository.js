@@ -36,9 +36,26 @@
 			});
 		};
 
+		function resumeUrl(resumeFileId, resumeFileName) {
+			return "files/" + resumeFileId + "/" + resumeFileName;
+		}
+
+		function assessmentUrl(assessmentFileId, assessmentFileName) {
+			return "files/" + assessmentFileId + "/" + assessmentFileName;
+		}
+
+		function getQuestions(assessmentId) {
+			return $http.get("questions").then(result => {
+				return result.data;
+			});
+		}
+
 		svc.getCanidate = getCanidate;
 		svc.saveCanidate = saveCanidate;
 		svc.getOpenAssessments = getOpenAssessments;
+		svc.resumeUrl = resumeUrl;
+		svc.assessmentUrl = assessmentUrl;
+		svc.getQuestions = getQuestions;
 		return svc;
 	}
 ];
