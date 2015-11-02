@@ -1,6 +1,7 @@
 ﻿namespace AssessmentTracker.Controllers
 {
 	using System;
+	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 	using System.Threading.Tasks;
@@ -22,6 +23,8 @@
 		private const int ResumeIndex = 1;
 
 		private readonly AssessmentDbContext assessmentContext;
+
+		private string CurrentUserId => "fred.flinstone";
 
 		public HomeController(AssessmentDbContext assessmentContext)
 		{
@@ -208,9 +211,108 @@
 		[HttpGet]
 		public async Task<IActionResult> GetQuestions(int assessmentId)
 		{
-			var questions =
-				await this.assessmentContext.Questions.Select(question => new { question.Id, question.Text }).ToListAsync();
+			List<AssessmentQuestion> questions;
+			var previousAssessment =
+				await
+				this.assessmentContext.PersonAssessments.Where(
+					assess => assess.Person.Name == this.CurrentUserId && assess.AssessmentId == assessmentId)
+					.Include(assess => assess.Answers)
+					.ThenInclude(answer => answer.Question)
+					.FirstOrDefaultAsync();
+
+
+			questions =
+					await
+					this.assessmentContext.Questions.Select(
+						question => new AssessmentQuestion { Id = question.Id, Text = question.Text }).ToListAsync();
+
+			if (previousAssessment != null)
+			{
+				foreach (var answer in previousAssessment.Answers)
+				{
+					var targetQuestion = questions.FirstOrDefault(q => q.Id == answer.QuestionId);
+					if (targetQuestion != null)
+					{
+						targetQuestion.Score = answer.Rating;
+						targetQuestion.Comments = answer.Comments;
+					}
+				}
+			}
+			
 			return this.Ok(questions);
+		}
+
+		[Route("questions")]
+		[HttpPost]
+		public async Task<IActionResult> PostQuestions([FromBody]AssessmentScore assessmentScore)
+		{
+			var person = await this.assessmentContext.Persons.FirstOrDefaultAsync(p => p.Name == this.CurrentUserId);
+			if (person == null)
+			{
+				person = new Person { Name = this.CurrentUserId };
+				this.assessmentContext.Persons.Add(person);
+				await this.assessmentContext.SaveChangesAsync();
+			}
+
+			var previousAssessment =
+				await
+				this.assessmentContext.PersonAssessments.Where(
+					assess => assess.Person.Name == this.CurrentUserId && assess.AssessmentId == assessmentScore.AssessmentId)
+					.Include(assess => assess.Answers)
+					.Include(assess => assess.Person)
+					.FirstOrDefaultAsync();
+
+			if (previousAssessment == null)
+			{
+				var newAssessment = new PersonAssessment { Person = person, AssessmentId = assessmentScore.AssessmentId };
+				this.assessmentContext.PersonAssessments.Add(newAssessment);
+				await this.assessmentContext.SaveChangesAsync();
+
+				if (assessmentScore.Questions != null)
+				{
+					foreach (var score in assessmentScore.Questions)
+					{
+						if (score.Score.HasValue)
+						{
+							newAssessment.Answers.Add(
+								new Answers
+									{
+										Rating = (int)score.Score,
+										Comments = score.Comments,
+										QuestionId = score.Id,
+										PersonAssessmentId = newAssessment.Id
+									});
+						}
+					}
+				}
+				
+			}
+			else
+			{
+				if (assessmentScore.Questions != null)
+				{
+					foreach (var score in assessmentScore.Questions)
+					{
+						if (score.Score.HasValue)
+						{
+							var targetQuestion = previousAssessment.Answers.FirstOrDefault(answer => answer.QuestionId == score.Id);
+							if (targetQuestion != null)
+							{
+								targetQuestion.Rating = (int)score.Score;
+								targetQuestion.Comments = score.Comments;
+							}
+							else
+							{
+								previousAssessment.Answers.Add(
+									new Answers { Rating = (int)score.Score, Comments = score.Comments, QuestionId = score.Id });
+							}
+						}
+					}
+				}
+			}
+
+			await this.assessmentContext.SaveChangesAsync();
+			return this.Ok();
 		}
 
 		[Route("files/{fileId:int}/{fileName}")]

@@ -45,7 +45,16 @@
 		}
 
 		function getQuestions(assessmentId) {
-			return $http.get("questions").then(result => {
+			return $http.get("questions", { params: { assessmentId: assessmentId } }).then(result => {
+				return result.data;
+			});
+		}
+
+		function saveQuestions(assessmentId, questions) {
+			return $http.post("questions", {
+				assessmentId: assessmentId,
+				questions: questions
+			}).then(result => {
 				return result.data;
 			});
 		}
@@ -56,6 +65,7 @@
 		svc.resumeUrl = resumeUrl;
 		svc.assessmentUrl = assessmentUrl;
 		svc.getQuestions = getQuestions;
+		svc.saveQuestions = saveQuestions;
 		return svc;
 	}
 ];

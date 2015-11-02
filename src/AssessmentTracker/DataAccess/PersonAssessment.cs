@@ -5,6 +5,11 @@ namespace AssessmentTracker.DataAccess
 {
 	public class PersonAssessment : IEntity
 	{
+		public PersonAssessment()
+		{
+			this.Answers = new List<Answers>();
+		}
+
 		public int Id { get; set; }
 
 		public int AssessmentId { get; set; }

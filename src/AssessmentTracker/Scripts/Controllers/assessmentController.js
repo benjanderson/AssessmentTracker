@@ -1,6 +1,6 @@
 ﻿var toastr = require("toastr");
 var _ = require("underscore");
-module.exports = ["$stateParams", "canidateRepository", function ($stateParams, canidateRepository) {
+module.exports = ["$stateParams", "canidateRepository", "$state", function ($stateParams, canidateRepository, $state) {
 	var ctrl = this;
 	var id = $stateParams.assessmentId;
 
@@ -30,6 +30,11 @@ module.exports = ["$stateParams", "canidateRepository", function ($stateParams, 
 	}
 
 	ctrl.save = () => {
-		
+		canidateRepository.saveQuestions(id, ctrl.questions).then(() => {
+			$state.go("home");
+			toastr.success('Successfully Saved!');
+		}).error(() => {
+			toastr.error(status, 'Error Saving');
+		});
 	};
 }];
