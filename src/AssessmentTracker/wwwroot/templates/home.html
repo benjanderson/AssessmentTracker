@@ -4,6 +4,8 @@
 		<thead>
 		<tr>
 			<th></th>
+			<th></th>
+			<th></th>
 			<th>Name</th>
 			<th>Date Submitted</th>
 			<th>Date Due</th>
@@ -11,7 +13,9 @@
 		</thead>
 		<tbody>
 		<tr ng-repeat="row in home.openAssessments">
-			<td style="width:30px"><a ui-sref="editCanidate({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-pencil"></i></a></td>
+			<td style="width:30px"><a ui-sref="editCanidate({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-pencil" title="edit canidate"></i></a></td>
+			<td style="width:30px"><a ui-sref="assessmentResults({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-star" title="assessment summary"></i></a></td>
+			<td style="width:30px"><a ui-sref="assessment({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-laptop" title="assess canidate"></i></a></td>
 			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.name"></a></td>
 			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.dateSubmitted | date: 'MM/dd/yyyy'"></a></td>
 			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.dateDue | date: 'MM/dd/yyyy'"></a></td>

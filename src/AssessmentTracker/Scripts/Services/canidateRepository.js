@@ -1,5 +1,5 @@
 ﻿module.exports = [
-	"$http", ($http) => {
+	"$http", "$q", ($http, $q) => {
 		var svc = this;
 
 		function getCanidate(id) {
@@ -55,7 +55,9 @@
 				assessmentId: assessmentId,
 				questions: questions
 			}).then(result => {
-				return result.data;
+				var defer = $q.defer();
+				defer.resolve(result.data);
+				return defer.promise;
 			});
 		}
 

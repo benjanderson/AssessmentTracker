@@ -146,7 +146,7 @@
 			return this.Ok();
 		}
 
-		[Route("assessment")]
+		[Route("assessment/{assessmentId:int}")]
 		[HttpGet]
 		public async Task<IActionResult> GetCanidate(int assessmentId)
 		{
@@ -207,7 +207,7 @@
 			return this.Ok(previews);
 		}
 
-		[Route("questions")]
+		[Route("questions/{assessmentId:int}")]
 		[HttpGet]
 		public async Task<IActionResult> GetQuestions(int assessmentId)
 		{
@@ -324,6 +324,18 @@
 				return this.HttpBadRequest("No such file exists");
 			}
 			return this.File(dbFile.Contents, dbFile.ContentType);
+		}
+
+		[Route("assessment/summary/{assessmentId:int}")]
+		public async Task<IActionResult> GetAssessmentSummary(int assessmentId)
+		{
+			var summary =
+				await assessmentContext.PersonAssessments.Where(assess => assess.AssessmentId == assessmentId).Select(assess => new
+				{
+
+				}).ToListAsync();
+
+			return Ok(summary);
 		}
 	}
 }

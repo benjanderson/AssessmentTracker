@@ -2,3 +2,4 @@
 app.controller("homeController", require("./homeController"));
 app.controller("canidateController", require("./canidateController"));
 app.controller("assessmentController", require("./assessmentController"));
+app.controller("assessmentResultsController", require("./assessmentResultsController"));

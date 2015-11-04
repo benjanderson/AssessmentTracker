@@ -33,7 +33,7 @@ module.exports = ["$stateParams", "canidateRepository", "$state", function ($sta
 		canidateRepository.saveQuestions(id, ctrl.questions).then(() => {
 			$state.go("home");
 			toastr.success('Successfully Saved!');
-		}).error(() => {
+		}, () => {
 			toastr.error(status, 'Error Saving');
 		});
 	};

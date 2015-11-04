@@ -21,5 +21,10 @@
 			url: "/assessment/:assessmentId",
 			templateUrl: "templates/assessment.html",
 			controller: "assessmentController as assess"
+		})
+		.state("assessmentResults", {
+			url: "/results/:assessmentId",
+			templateUrl: "templates/assessmentResults.html",
+			controller: "assessmentResultsController as results"
 		});
 }];

@@ -1,4 +1,4 @@
-﻿module.exports = ["$http", "canidateRepository", function ($http, canidateRepository) {
+﻿module.exports = ["canidateRepository", function (canidateRepository) {
 	var ctrl = this;
 	canidateRepository.getOpenAssessments().then((data) => {
 		ctrl.openAssessments = data;
