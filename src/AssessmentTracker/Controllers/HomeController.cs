@@ -146,7 +146,7 @@
 			return this.Ok();
 		}
 
-		[Route("assessment/{assessmentId:int}")]
+		[Route("assessment")]
 		[HttpGet]
 		public async Task<IActionResult> GetCanidate(int assessmentId)
 		{
@@ -207,7 +207,7 @@
 			return this.Ok(previews);
 		}
 
-		[Route("questions/{assessmentId:int}")]
+		[Route("questions")]
 		[HttpGet]
 		public async Task<IActionResult> GetQuestions(int assessmentId)
 		{
@@ -326,7 +326,7 @@
 			return this.File(dbFile.Contents, dbFile.ContentType);
 		}
 
-		[Route("assessment/summary/{assessmentId:int}")]
+		[Route("assessment/summary/")]
 		public async Task<IActionResult> GetAssessmentSummary(int assessmentId)
 		{
 			var summary =

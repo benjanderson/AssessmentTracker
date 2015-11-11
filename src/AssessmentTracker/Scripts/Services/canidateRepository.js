@@ -45,7 +45,7 @@
 		}
 
 		function getQuestions(assessmentId) {
-			return $http.get("questions", { params: { assessmentId: assessmentId } }).then(result => {
+			return $http.get("questions/", { params: { assessmentId: assessmentId } }).then(result => {
 				return result.data;
 			});
 		}
