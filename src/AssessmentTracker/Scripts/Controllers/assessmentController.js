@@ -1,6 +1,6 @@
 ﻿var toastr = require("toastr");
 var _ = require("underscore");
-module.exports = ["$stateParams", "canidateRepository", "$state", function ($stateParams, canidateRepository, $state) {
+module.exports = ["$stateParams", "canidateRepository", "$state", "$scope", function ($stateParams, canidateRepository, $state, $scope) {
 	var ctrl = this;
 	var id = $stateParams.assessmentId;
 
@@ -36,5 +36,10 @@ module.exports = ["$stateParams", "canidateRepository", "$state", function ($sta
 		}, () => {
 			toastr.error(status, 'Error Saving');
 		});
+	};
+
+	$scope.modalVisible = false;
+	ctrl.showModal = () => {
+		$scope.modalVisible = !$scope.modalVisible;
 	};
 }];
