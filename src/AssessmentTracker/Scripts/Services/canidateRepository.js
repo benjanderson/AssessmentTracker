@@ -61,6 +61,17 @@
 			});
 		}
 
+		function getAssessmentSummary(assessmentId)
+		{
+			return $http.get("assessment/summary/", {
+				params: { assessmentId: assessmentId }
+			}).then(result => {
+				var defer = $q.defer();
+				defer.resolve(result.data);
+				return defer.promise;
+			});
+		}
+
 		svc.getCanidate = getCanidate;
 		svc.saveCanidate = saveCanidate;
 		svc.getOpenAssessments = getOpenAssessments;
@@ -68,6 +79,7 @@
 		svc.assessmentUrl = assessmentUrl;
 		svc.getQuestions = getQuestions;
 		svc.saveQuestions = saveQuestions;
+		svc.getAssessmentSummary = getAssessmentSummary;
 		return svc;
 	}
 ];

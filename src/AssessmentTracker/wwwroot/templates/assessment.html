@@ -4,8 +4,8 @@
 			<span ng-bind="assess.assessment.name"></span> <small ng-bind="assess.assessment.position.text"></small>
 		</h1>
 		<a class="btn btn-primary" ng-href="{{ assess.resumeUrl }}"><i class="fa fa-file-pdf-o"></i>&nbsp;Resume</a>
-		<a class="btn btn-primary" ng-href="{{ assess.assessmentUrl }}"><i class="fa fa-file-archive-o"></i>&nbsp;Assessment Archive</a>
-		<button class="btn btn-primary" ng-click="assess.showModal()"><i class="fa fa-star"></i>&nbsp;Show Overall Results</button>
+		<a class="btn btn-primary" ng-href="{{ assess.assessmentUrl }}"><i class="fa fa-file-archive-o" ></i>&nbsp;Assessment Archive</a>
+		<button class="btn btn-primary" ng-click="assess.showModal()"><i class="fa fa-star" style="color:yellow"></i>&nbsp;Show Overall Results</button>
 	</div>
 	<p ng-bind="assess.assessment.notes"></p>
 	<form>
@@ -56,14 +56,6 @@
 </div>
 
 
-<div modal modal-title="Login form" modal-visible="modalVisible">
-		<div class="form-group">
-			<label for="email">Email address</label>
-			<input type="email" class="form-control" id="email" placeholder="Enter email" />
-		</div>
-		<div class="form-group">
-			<label for="password">Password</label>
-			<input type="password" class="form-control" id="password" placeholder="Password" />
-		</div>
-		<button type="submit" class="btn btn-default">Submit</button>
+<div modal modal-title="Assessment Summary" modal-visible="modalVisible">
+		{{ assess.summary | json }}
 </div>

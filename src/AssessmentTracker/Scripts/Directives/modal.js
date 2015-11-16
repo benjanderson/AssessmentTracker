@@ -20,7 +20,6 @@ module.exports = [function () {
 				scope.title = attrs.modalTitle;
 
 				scope.$watch(attrs.modalVisible, function (value) {
-					console.log(value);
 					if (value === true)
 						$(element).modal('show');
 					else

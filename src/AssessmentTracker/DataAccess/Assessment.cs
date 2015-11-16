@@ -8,6 +8,11 @@ namespace AssessmentTracker.DataAccess
 
 	public class Assessment : IEntity
 	{
+		public Assessment()
+		{
+			this.PersonAssessments = new List<PersonAssessment>();
+		}
+
 		public int Id { get; set; }
 
 		public DateTime DateOfSubmission { get; set; }

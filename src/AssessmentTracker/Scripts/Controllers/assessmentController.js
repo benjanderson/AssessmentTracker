@@ -41,5 +41,8 @@ module.exports = ["$stateParams", "canidateRepository", "$state", "$scope", func
 	$scope.modalVisible = false;
 	ctrl.showModal = () => {
 		$scope.modalVisible = !$scope.modalVisible;
+		canidateRepository.getAssessmentSummary(id).then((result) => {
+			ctrl.summary = result;
+		});
 	};
 }];

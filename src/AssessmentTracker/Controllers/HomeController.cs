@@ -24,7 +24,7 @@
 
 		private readonly AssessmentDbContext assessmentContext;
 
-		private string CurrentUserId => "fred.flinstone";
+		private string CurrentUserId => "homer.simpson";
 
 		public HomeController(AssessmentDbContext assessmentContext)
 		{
@@ -329,13 +329,31 @@
 		[Route("assessment/summary/")]
 		public async Task<IActionResult> GetAssessmentSummary(int assessmentId)
 		{
+			var dbSummary =
+				await
+				this.assessmentContext.PersonAssessments.Where(assess => assess.AssessmentId == assessmentId)
+					.Include(assess => assess.Person)
+					.Include(assess => assess.Answers)
+					.ThenInclude(answer => answer.Question )
+					.ToListAsync();
+
 			var summary =
-				await assessmentContext.PersonAssessments.Where(assess => assess.AssessmentId == assessmentId).Select(assess => new
-				{
+				dbSummary.SelectMany(assess => assess.Answers)
+					.GroupBy(question => question.QuestionId)
+					.Select(
+						question =>
+						new
+							{
+								Text = question.First().Question.Text,
+								Average = $"Value: {(float)question.Sum(answer => answer.Rating) / (question.Count() * 3):P2}.",
+								Answers =
+							question.Select(
+								answer =>
+								new { Rating = answer.Rating, Person = answer.PersonAssessment.Person.Name, Comment = answer.Comments })
+							})
+					.ToList();
 
-				}).ToListAsync();
-
-			return Ok(summary);
+			return this.Ok(summary);
 		}
 	}
 }
