@@ -337,7 +337,7 @@
 					.ThenInclude(answer => answer.Question )
 					.ToListAsync();
 
-			var summary =
+			var questions =
 				dbSummary.SelectMany(assess => assess.Answers)
 					.GroupBy(question => question.QuestionId)
 					.Select(
@@ -345,7 +345,7 @@
 						new
 							{
 								Text = question.First().Question.Text,
-								Average = $"Value: {(float)question.Sum(answer => answer.Rating) / (question.Count() * 3):P2}.",
+								Average = question.Average(a => a.Rating),
 								Answers =
 							question.Select(
 								answer =>
@@ -353,7 +353,9 @@
 							})
 					.ToList();
 
-			return this.Ok(summary);
+			return this.Ok(new {
+				Questions = questions,
+				TotalAverage = $"{questions.Average(q => q.Average / 2):P}" });
 		}
 	}
 }

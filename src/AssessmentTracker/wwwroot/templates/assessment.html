@@ -4,51 +4,51 @@
 			<span ng-bind="assess.assessment.name"></span> <small ng-bind="assess.assessment.position.text"></small>
 		</h1>
 		<a class="btn btn-primary" ng-href="{{ assess.resumeUrl }}"><i class="fa fa-file-pdf-o"></i>&nbsp;Resume</a>
-		<a class="btn btn-primary" ng-href="{{ assess.assessmentUrl }}"><i class="fa fa-file-archive-o" ></i>&nbsp;Assessment Archive</a>
+		<a class="btn btn-primary" ng-href="{{ assess.assessmentUrl }}"><i class="fa fa-file-archive-o"></i>&nbsp;Assessment Archive</a>
 		<button class="btn btn-primary" ng-click="assess.showModal()"><i class="fa fa-star" style="color:yellow"></i>&nbsp;Show Overall Results</button>
 	</div>
 	<p ng-bind="assess.assessment.notes"></p>
 	<form>
 		<table class="table">
 			<thead>
-			<tr>
-				<th>
-					Question
-				</th>
-				<th>
-					Score
-				</th>
-			</tr>
+				<tr>
+					<th>
+						Question
+					</th>
+					<th>
+						Score
+					</th>
+				</tr>
 			</thead>
 			<tbody>
-			<tr ng-repeat="question in assess.questions">
-				<td markdown="question.text"></td>
-				<td>
-					<div class="btn-group" data-toggle="buttons">
-						<button ng-class="question.score == 0 ? 'btn-danger active': 'btn-default'" class="btn" ng-click="question.score = 0">
-							Not Present <strong>0</strong>
-						</button>
-						<button ng-class="question.score == 1 ? 'btn-warning active': 'btn-default'" class="btn" ng-click="question.score = 1">
-							Some Knowledge <strong>1</strong>
-						</button>
-						<button ng-class="question.score == 2 ? 'btn-success active': 'btn-default'" class="btn" ng-click="question.score = 2">
-							Shows Proficiency <strong>2</strong>
-						</button>
-					</div>
-					<div class="form-group">
-						<textarea class="form-control" rows="3" placeholder="Comments" ng-model="question.comments"></textarea>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<button class="btn btn-success" ng-click="assess.save()" ng-disabled="assess.disableSave()"><i class="fa fa-save"></i>&nbsp;Submit</button>
-					<span class="label label-danger" ng-show="assess.disableSave()">Cannot save until all scores are completed</span>
-				</td>
-				<td>
-					<div class="well well-lg">{{assess.totalScore() | number :1}}%</div>
-				</td>
-			</tr>
+				<tr ng-repeat="question in assess.questions">
+					<td markdown="question.text"></td>
+					<td>
+						<div class="btn-group" data-toggle="buttons">
+							<button ng-class="question.score == 0 ? 'btn-danger active': 'btn-default'" class="btn" ng-click="question.score = 0">
+								Not Present <strong>0</strong>
+							</button>
+							<button ng-class="question.score == 1 ? 'btn-warning active': 'btn-default'" class="btn" ng-click="question.score = 1">
+								Some Knowledge <strong>1</strong>
+							</button>
+							<button ng-class="question.score == 2 ? 'btn-success active': 'btn-default'" class="btn" ng-click="question.score = 2">
+								Shows Proficiency <strong>2</strong>
+							</button>
+						</div>
+						<div class="form-group">
+							<textarea class="form-control" rows="3" placeholder="Comments" ng-model="question.comments"></textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button class="btn btn-success" ng-click="assess.save()" ng-disabled="assess.disableSave()"><i class="fa fa-save"></i>&nbsp;Submit</button>
+						<span class="label label-danger" ng-show="assess.disableSave()">Cannot save until all scores are completed</span>
+					</td>
+					<td>
+						<div class="well well-lg">{{assess.totalScore() | number :1}}%</div>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 
@@ -57,5 +57,21 @@
 
 
 <div modal modal-title="Assessment Summary" modal-visible="modalVisible">
-		{{ assess.summary | json }}
+	<h2>Total Average: {{assess.summary.totalAverage}}</h2>
+	<table class="table">
+		<tr ng-repeat="question in assess.summary.questions">
+			<td>
+				<span markdown="question.text"></span>
+			</td>
+			<td style="width: 33%">
+				<ul class="list-group">
+					<li class="list-group-item" ng-class="{'danger' : answer.rating == 0, 'warning' : answer.rating == 1, 'success' : answer.rating == 2}" ng-repeat="answer in question.answers">
+						<span ng-bind="answer.person"></span>
+						<span class="badge" ng-bind="answer.rating"></span>
+						<i data-toggle="tooltip" ng-if="answer.comment" tooltip="answer.comment" class="fa fa-comment pull-right" style="color: #fff; padding-right:1em"></i>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
 </div>

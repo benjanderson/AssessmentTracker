@@ -46,3 +46,38 @@
 	}
 }
 
+.list-group-item.warning,
+.list-group-item.warning:hover,
+.list-group-item.warning:focus {
+  text-shadow: 0 -1px 0 darken(@btn-warning-bg, 10%);
+  #gradient > .vertical(@start-color: @btn-warning-bg; @end-color: darken(@btn-warning-bg, 7.5%));
+  border-color: darken(@btn-warning-border, 7.5%);
+
+  .badge {
+    text-shadow: none;
+  }
+}
+
+.list-group-item.success,
+.list-group-item.success:hover,
+.list-group-item.success:focus {
+  text-shadow: 0 -1px 0 darken(@btn-success-bg, 10%);
+  #gradient > .vertical(@start-color: @btn-success-bg; @end-color: darken(@btn-success-bg, 7.5%));
+  border-color: darken(@btn-success-border, 7.5%);
+
+  .badge {
+    text-shadow: none;
+  }
+}
+
+.list-group-item.danger,
+.list-group-item.danger:hover,
+.list-group-item.danger:focus {
+  text-shadow: 0 -1px 0 darken(@btn-danger-bg, 10%);
+  #gradient > .vertical(@start-color: @btn-danger-bg; @end-color: darken(@btn-danger-bg, 7.5%));
+  border-color: darken(@btn-danger-border, 7.5%);
+
+  .badge {
+    text-shadow: none;
+  }
+}

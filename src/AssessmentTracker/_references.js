@@ -10,6 +10,7 @@
 /// <reference path="scripts/Directives/Index.js" />
 /// <reference path="Scripts/Directives/markdown.js" />
 /// <reference path="scripts/directives/modal.js" />
+/// <reference path="scripts/directives/tooltip.js" />
 /// <reference path="scripts/Services/canidateRepository.js" />
 /// <reference path="scripts/services/index.js" />
 /// <reference path="scripts/Setup/Config.js" />
