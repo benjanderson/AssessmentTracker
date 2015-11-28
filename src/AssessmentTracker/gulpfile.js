@@ -11,7 +11,8 @@
 	cssMin = require("gulp-cssmin"),
 	uglify = require("gulp-uglify"),
 	gulpIf = require("gulp-if"),
-	sourcemaps = require('gulp-sourcemaps');
+	sourcemaps = require('gulp-sourcemaps'),
+	del = require('del');
 
 var config = {
 	release: process.env.NODE_ENV && process.env.NODE_ENV !== 'Release',
@@ -49,6 +50,10 @@ gulp.task("serve", function () {
 	//	});
 });
 
+gulp.task("clean", function () {
+	return del(["./" + project.webroot + "/css/site.css", "./" + project.webroot + "/js/app.js"]);
+});
+
 gulp.task("css", function () {
 	gulp.src(config.paths.siteLess)
 		.pipe(sourcemaps.init())
@@ -74,7 +79,7 @@ gulp.task("fonts", function () {
 });
 
 
-gulp.task("default", ["browserify", "css", "serve", "fonts"], function () {
+gulp.task("default", ["clean", "browserify", "css", "serve", "fonts"], function () {
 	gulp.watch(config.paths.js, ["js-watch"]);
 	gulp.watch(config.paths.html, ["html-watch"]);
 	gulp.watch(config.paths.siteLess, ["css-watch"]);
