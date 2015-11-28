@@ -55,7 +55,7 @@ gulp.task("clean", function () {
 });
 
 gulp.task("css", function () {
-	gulp.src(config.paths.siteLess)
+	return gulp.src(config.paths.siteLess)
 		.pipe(sourcemaps.init())
 		.pipe(less())
 		.pipe(sourcemaps.write())
@@ -78,8 +78,12 @@ gulp.task("fonts", function () {
 		.pipe(gulp.dest(config.paths.webroot + "/fonts/"));
 });
 
+gulp.task("min", function() {
 
-gulp.task("default", ["clean", "browserify", "css", "serve", "fonts"], function () {
+});
+
+
+gulp.task("default", ["clean", "min", "browserify", "css", "serve", "fonts"], function () {
 	gulp.watch(config.paths.js, ["js-watch"]);
 	gulp.watch(config.paths.html, ["html-watch"]);
 	gulp.watch(config.paths.siteLess, ["css-watch"]);
