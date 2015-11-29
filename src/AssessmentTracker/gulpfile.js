@@ -86,7 +86,9 @@ gulp.task("clean", function () {
 });
 
 gulp.task("default", ["clean", "min", "browserify", "css", "serve", "fonts"], function () {
-	gulp.watch(config.paths.js, ["js-watch"]);
-	gulp.watch(config.paths.html, ["html-watch"]);
-	gulp.watch(config.paths.siteLess, ["css-watch"]);
+	if (!config.release) {
+		gulp.watch(config.paths.js, ["js-watch"]);
+		gulp.watch(config.paths.html, ["html-watch"]);
+		gulp.watch(config.paths.siteLess, ["css-watch"]);
+	}
 });
