@@ -1,5 +1,4 @@
-﻿var $ = require("jquery");
-module.exports = ["$sanitize", function ($sanitize) {
+﻿module.exports = ["$sanitize", function ($sanitize) {
 	return {
 		restrict: 'AE',
 		link: function (scope, element, attrs) {

@@ -1,5 +1,5 @@
 ﻿module.exports = [
-	"$http", "$q", ($http, $q) => {
+	"$http", "$q", function ($http, $q) {
 		var svc = this;
 
 		function getCanidate(id) {

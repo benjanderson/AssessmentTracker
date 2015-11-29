@@ -9,13 +9,13 @@
 	gulpDebug = require("gulp-debug"),
 	less = require("gulp-less"),
 	cssMin = require("gulp-cssmin"),
-	uglify = require("gulp-uglify"),
-	gulpIf = require("gulp-if"),
+	minifyify = require("minifyify"),
 	sourcemaps = require('gulp-sourcemaps'),
-	del = require('del');
+	babelify = require("babelify"),
+	gulpIf = require("gulp-if");
 
 var config = {
-	release: process.env.NODE_ENV && process.env.NODE_ENV !== 'Release',
+	release: process.env.NODE_ENV && process.env.NODE_ENV === 'Release',
 	port: 50937,
 	sitepath: "",
 	paths: {
@@ -50,25 +50,24 @@ gulp.task("serve", function () {
 	//	});
 });
 
-gulp.task("clean", function () {
-	return del(["./" + project.webroot + "/css/site.css", "./" + project.webroot + "/js/app.js"]);
-});
+
 
 gulp.task("css", function () {
 	return gulp.src(config.paths.siteLess)
-		.pipe(sourcemaps.init())
+		.pipe(gulpIf(!config.release, sourcemaps.init()))
 		.pipe(less())
-		.pipe(sourcemaps.write())
+		.pipe(gulpIf(!config.release, sourcemaps.write()))
 		.on('error', swallowError)
-		.pipe(gulpIf(config.release, cssMin()))
+		.pipe(cssMin())
 		.pipe(gulp.dest("./" + project.webroot + "/css/"));
 });
 
 gulp.task("browserify", function () {
-	return browserify({ debug: true, entries: ["./Scripts/app.js"] })
+	return browserify({ debug: !config.release, entries: ["./Scripts/app.js"] })
+		.transform("babelify", { presets: ["es2015"] })
+		.plugin('minifyify', { map: config.release ? null : 'app.map.json', output: config.release ? null : "./" + project.webroot + "/js/app.map.json" })
 		.bundle()
 		.on('error', swallowError)
-		.pipe(gulpIf(config.release, uglify()))
 		.pipe(source("app.js"))
 		.pipe(gulp.dest(config.paths.webroot + "/js/"));
 });
@@ -82,6 +81,9 @@ gulp.task("min", function() {
 
 });
 
+gulp.task("clean", function () {
+
+});
 
 gulp.task("default", ["clean", "min", "browserify", "css", "serve", "fonts"], function () {
 	gulp.watch(config.paths.js, ["js-watch"]);
