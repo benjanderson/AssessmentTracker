@@ -23,9 +23,10 @@
 		{
 			// Setup configuration sources.
 
-			var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
-					.AddJsonFile("config.json")
-					.AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
+			var builder =
+				new ConfigurationBuilder(appEnv.ApplicationBasePath).AddJsonFile("config.json")
+					.AddJsonFile($"config.{env.EnvironmentName}.json", optional: true)
+					.AddEnvironmentVariables();
 
 			if (env.IsDevelopment())
 			{
