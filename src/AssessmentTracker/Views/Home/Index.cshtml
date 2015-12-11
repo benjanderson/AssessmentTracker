@@ -28,11 +28,13 @@
 					<li ui-sref-active="active"><a ui-sref="home">Home</a></li>
 					<li ui-sref-active="active"><a ui-sref="newCanidate">New Canidate</a></li>
 				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="navbar-text">Hello @User.Identity.Name!</li>
+					<li>@Html.ActionLink("Sign Out", "SignOut", "Account")</li>
+				</ul>
 			</div>
 		</div>
 	</nav>
-
-	
 </header>
 	<div class="content">
 		<div ui-view></div>

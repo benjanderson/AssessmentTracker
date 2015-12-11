@@ -4,23 +4,18 @@ using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
 using AssessmentTracker.DataAccess;
-using Microsoft.Data.Entity.SqlServer.Metadata;
 
 namespace AssessmentTracker.Migrations
 {
     [DbContext(typeof(AssessmentDbContext))]
-    partial class QuestionAnswers
+    [Migration("20151208043749_FirstMigration")]
+    partial class FirstMigration
     {
-        public override string Id
-        {
-            get { return "20151027040549_QuestionAnswers"; }
-        }
-
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .Annotation("ProductVersion", "7.0.0-beta7-15540")
-                .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.Answers", b =>
                 {
@@ -35,7 +30,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<int>("Rating");
 
-                    b.Key("Id");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.Assessment", b =>
@@ -59,7 +54,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<int>("ResumeFileId");
 
-                    b.Key("Id");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.DbFile", b =>
@@ -73,7 +68,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<string>("FileName");
 
-                    b.Key("Id");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.Person", b =>
@@ -83,7 +78,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Key("Id");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.PersonAssessment", b =>
@@ -95,7 +90,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<int>("PersonId");
 
-                    b.Key("Id");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.Question", b =>
@@ -105,44 +100,44 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<string>("Text");
 
-                    b.Key("Id");
+                    b.HasKey("Id");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.Answers", b =>
                 {
-                    b.Reference("AssessmentTracker.DataAccess.PersonAssessment")
-                        .InverseCollection()
-                        .ForeignKey("PersonAssessmentId");
+                    b.HasOne("AssessmentTracker.DataAccess.PersonAssessment")
+                        .WithMany()
+                        .HasForeignKey("PersonAssessmentId");
 
-                    b.Reference("AssessmentTracker.DataAccess.Question")
-                        .InverseCollection()
-                        .ForeignKey("QuestionId");
+                    b.HasOne("AssessmentTracker.DataAccess.Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.Assessment", b =>
                 {
-                    b.Reference("AssessmentTracker.DataAccess.DbFile")
-                        .InverseCollection()
-                        .ForeignKey("AssessmentFileId");
+                    b.HasOne("AssessmentTracker.DataAccess.DbFile")
+                        .WithMany()
+                        .HasForeignKey("AssessmentFileId");
 
-                    b.Reference("AssessmentTracker.DataAccess.Person")
-                        .InverseCollection()
-                        .ForeignKey("PersonId");
+                    b.HasOne("AssessmentTracker.DataAccess.Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId");
 
-                    b.Reference("AssessmentTracker.DataAccess.DbFile")
-                        .InverseCollection()
-                        .ForeignKey("ResumeFileId");
+                    b.HasOne("AssessmentTracker.DataAccess.DbFile")
+                        .WithMany()
+                        .HasForeignKey("ResumeFileId");
                 });
 
             modelBuilder.Entity("AssessmentTracker.DataAccess.PersonAssessment", b =>
                 {
-                    b.Reference("AssessmentTracker.DataAccess.Assessment")
-                        .InverseCollection()
-                        .ForeignKey("AssessmentId");
+                    b.HasOne("AssessmentTracker.DataAccess.Assessment")
+                        .WithMany()
+                        .HasForeignKey("AssessmentId");
 
-                    b.Reference("AssessmentTracker.DataAccess.Person")
-                        .InverseCollection()
-                        .ForeignKey("PersonId");
+                    b.HasOne("AssessmentTracker.DataAccess.Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId");
                 });
         }
     }

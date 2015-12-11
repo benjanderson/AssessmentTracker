@@ -1,7 +1,7 @@
-﻿var gulp = require("gulp"),
+﻿"use strict";
+var gulp = require("gulp"),
 	browserify = require("browserify"),
 	gulpBrowserify = require("gulp-browserify"),
-	project = require("./project.json"),
 	browserSync = require("browser-sync"),
 	source = require("vinyl-source-stream"),
 	concat = require("gulp-concat"),
@@ -19,9 +19,9 @@ var config = {
 	port: 50937,
 	sitepath: "",
 	paths: {
-		webroot: "./" + project.webroot + "/",
+		webroot: "./wwwroot/",
 		html: ["Views/**/*.cshtml",
-		"./" + project.webroot + "/templates/**/*.html"],
+		"./wwwroot/templates/**/*.html"],
 		js: "Scripts/**/*.js",
 		siteLess: "Content/site.less"
 	}
@@ -59,13 +59,13 @@ gulp.task("css", function () {
 		.pipe(gulpIf(!config.release, sourcemaps.write()))
 		.on('error', swallowError)
 		.pipe(cssMin())
-		.pipe(gulp.dest("./" + project.webroot + "/css/"));
+		.pipe(gulp.dest("./" + config.paths.webroot + "/css/"));
 });
 
 gulp.task("browserify", function () {
 	return browserify({ debug: !config.release, entries: ["./Scripts/app.js"] })
 		.transform("babelify", { presets: ["es2015"] })
-		.plugin('minifyify', { map: config.release ? null : 'app.map.json', output: config.release ? null : "./" + project.webroot + "/js/app.map.json" })
+		.plugin('minifyify', { map: config.release ? null : 'app.map.json', output: config.release ? null : "./" + config.paths.webroot + "/js/app.map.json" })
 		.bundle()
 		.on('error', swallowError)
 		.pipe(source("app.js"))
@@ -77,15 +77,7 @@ gulp.task("fonts", function () {
 		.pipe(gulp.dest(config.paths.webroot + "/fonts/"));
 });
 
-gulp.task("min", function() {
-
-});
-
-gulp.task("clean", function () {
-
-});
-
-gulp.task("default", ["clean", "min", "browserify", "css", "serve", "fonts"], function () {
+gulp.task("default", ["browserify", "css", "serve", "fonts"], function () {
 	if (!config.release) {
 		gulp.watch(config.paths.js, ["js-watch"]);
 		gulp.watch(config.paths.html, ["html-watch"]);

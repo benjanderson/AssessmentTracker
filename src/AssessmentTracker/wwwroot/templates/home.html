@@ -12,8 +12,8 @@
 		</thead>
 		<tbody>
 		<tr ng-repeat="row in home.openAssessments">
-			<td style="width:30px"><a ui-sref="editCanidate({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-pencil" title="edit canidate"></i></a></td>
-			<td style="width:30px"><a ui-sref="assessment({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-laptop" title="assess canidate"></i></a></td>
+			<td style="width: 30px"><a ui-sref="editCanidate({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-pencil" title="edit canidate"></i></a></td>
+			<td style="width: 30px"><a ui-sref="assessment({assessmentId: row.assessmentId})"><i class="fa fa-fw fa-laptop" title="assess canidate"></i></a></td>
 			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.name"></a></td>
 			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.dateSubmitted | date: 'MM/dd/yyyy'"></a></td>
 			<td><a ui-sref="assessment({assessmentId: row.assessmentId})" ng-bind="row.dateDue | date: 'MM/dd/yyyy'"></a></td>

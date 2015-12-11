@@ -10,13 +10,15 @@
 	using AssessmentTracker.Models;
 	using AssessmentTracker.Services;
 
+	using Microsoft.AspNet.Authorization;
 	using Microsoft.AspNet.Http;
 	using Microsoft.AspNet.Mvc;
 	using Microsoft.Net.Http.Headers;
 	using Microsoft.Data.Entity;
-	
+
 	using Newtonsoft.Json;
 
+	[Authorize]
 	public class HomeController : Controller
 	{
 		private const int AssessmentIndex = 0;
@@ -24,15 +26,25 @@
 
 		private readonly AssessmentDbContext assessmentContext;
 
-		private string CurrentUserId => "homer.simpson";
+		private string CurrentUserId => this.User.Identity.Name;
 
 		public HomeController(AssessmentDbContext assessmentContext)
 		{
 			this.assessmentContext = assessmentContext;
 		}
 
+		[Route("Home/Index")]
+		[Route("")]
 		public IActionResult Index()
 		{
+			return this.View();
+		}
+
+		[Route("Home/Error")]
+		[AllowAnonymous]
+		public IActionResult Error(string message)
+		{
+			this.ViewBag.Message = message;
 			return this.View();
 		}
 

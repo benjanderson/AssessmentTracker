@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
-using Microsoft.Data.Entity.SqlServer.Metadata;
+using Microsoft.Data.Entity.Metadata;
 
 namespace AssessmentTracker.Migrations
 {
-    public partial class QuestionAnswers : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,11 +13,11 @@ namespace AssessmentTracker.Migrations
                 name: "DbFile",
                 columns: table => new
                 {
-                    Id = table.Column<int>(isNullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn),
-                    ContentType = table.Column<string>(isNullable: true),
-                    Contents = table.Column<byte[]>(isNullable: true),
-                    FileName = table.Column<string>(isNullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ContentType = table.Column<string>(nullable: true),
+                    Contents = table.Column<byte[]>(nullable: true),
+                    FileName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,9 +27,9 @@ namespace AssessmentTracker.Migrations
                 name: "Person",
                 columns: table => new
                 {
-                    Id = table.Column<int>(isNullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn),
-                    Name = table.Column<string>(isNullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,9 +39,9 @@ namespace AssessmentTracker.Migrations
                 name: "Question",
                 columns: table => new
                 {
-                    Id = table.Column<int>(isNullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn),
-                    Text = table.Column<string>(isNullable: true)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Text = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,16 +51,16 @@ namespace AssessmentTracker.Migrations
                 name: "Assessment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(isNullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn),
-                    Active = table.Column<bool>(isNullable: false),
-                    AssessmentFileId = table.Column<int>(isNullable: false),
-                    DateOfDeadline = table.Column<DateTime>(isNullable: false),
-                    DateOfSubmission = table.Column<DateTime>(isNullable: false),
-                    Notes = table.Column<string>(isNullable: true),
-                    PersonId = table.Column<int>(isNullable: false),
-                    Position = table.Column<int>(isNullable: false),
-                    ResumeFileId = table.Column<int>(isNullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Active = table.Column<bool>(nullable: false),
+                    AssessmentFileId = table.Column<int>(nullable: false),
+                    DateOfDeadline = table.Column<DateTime>(nullable: false),
+                    DateOfSubmission = table.Column<DateTime>(nullable: false),
+                    Notes = table.Column<string>(nullable: true),
+                    PersonId = table.Column<int>(nullable: false),
+                    Position = table.Column<int>(nullable: false),
+                    ResumeFileId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,10 +85,10 @@ namespace AssessmentTracker.Migrations
                 name: "PersonAssessment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(isNullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn),
-                    AssessmentId = table.Column<int>(isNullable: false),
-                    PersonId = table.Column<int>(isNullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AssessmentId = table.Column<int>(nullable: false),
+                    PersonId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,12 +108,12 @@ namespace AssessmentTracker.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(isNullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerIdentityStrategy.IdentityColumn),
-                    Comments = table.Column<string>(isNullable: true),
-                    PersonAssessmentId = table.Column<int>(isNullable: false),
-                    QuestionId = table.Column<int>(isNullable: false),
-                    Rating = table.Column<int>(isNullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Comments = table.Column<string>(nullable: true),
+                    PersonAssessmentId = table.Column<int>(nullable: false),
+                    QuestionId = table.Column<int>(nullable: false),
+                    Rating = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
