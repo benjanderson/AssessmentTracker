@@ -3,18 +3,17 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:55179/",
-      "sslPort": 44381
+      "applicationUrl": "http://localhost:55179/"
     }
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:44381/",
-      "environmentVariables": {
-        "Hosting:Environment": "Development"
-      }
+        "commandName": "IISExpress",
+        "launchBrowser": true,
+        "launchUrl": "http://localhost:55179/",
+        "environmentVariables": {
+            "Hosting:Environment": "Development"
+        }
     },
     "web": {
       "commandName": "web",

@@ -1,24 +1,25 @@
 ﻿namespace AssessmentTracker
 {
-	using System.Threading.Tasks;
+    using System.Threading.Tasks;
 
-	using AssessmentTracker.DataAccess;
+    using AssessmentTracker.DataAccess;
 
-	using Microsoft.AspNet.Authentication;
-	using Microsoft.AspNet.Authentication.Cookies;
-	using Microsoft.AspNet.Authentication.OpenIdConnect;
-	using Microsoft.AspNet.Builder;
-	using Microsoft.AspNet.Hosting;
-	using Microsoft.Data.Entity;
-	using Microsoft.Dnx.Runtime;
+    using Microsoft.AspNet.Authentication;
+    using Microsoft.AspNet.Authentication.Cookies;
+    using Microsoft.AspNet.Authentication.OpenIdConnect;
+    using Microsoft.AspNet.Builder;
+    using Microsoft.AspNet.Hosting;
+    using Microsoft.Data.Entity;
+    using Microsoft.Dnx.Runtime;
 
-	using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-	using Microsoft.Extensions.Configuration;
-	using Newtonsoft.Json.Serialization;
-	using Microsoft.Extensions.DependencyInjection;
-	using Microsoft.Extensions.Logging;
+    using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+    using Microsoft.Extensions.Configuration;
+    using Newtonsoft.Json.Serialization;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Services.Security;
 
-	public class Startup
+    public class Startup
 	{
 		public Startup(IHostingEnvironment env)
 		{
@@ -66,25 +67,34 @@
 
 			app.UseStaticFiles();
 
-			app.UseCookieAuthentication(options =>
-			{
-				options.AutomaticAuthenticate = true;
-			});
+            app.UseCookieAuthentication(options =>
+            {
+                options.AutomaticAuthenticate = true;
+            });
 
-			app.UseOpenIdConnectAuthentication(options =>
+            if (env.IsDevelopment())
 			{
-				options.AutomaticChallenge = true;
-				options.ClientId = this.Configuration["Authentication:AzureAd:ClientId"];
-				options.Authority = this.Configuration["Authentication:AzureAd:AADInstance"] + this.Configuration["Authentication:AzureAd:TenantId"];
-				options.PostLogoutRedirectUri = this.Configuration["Authentication:AzureAd:PostLogoutRedirectUri"];
-				options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-			});
+                app.UseDeveloperSecurity();
+            }
+            else
+            {
+                app.UseOpenIdConnectAuthentication(options =>
+                {
+                    options.AutomaticChallenge = true;
+                    options.ClientId = this.Configuration["Authentication:AzureAd:ClientId"];
+                    options.Authority = this.Configuration["Authentication:AzureAd:AADInstance"] + this.Configuration["Authentication:AzureAd:TenantId"];
+                    options.PostLogoutRedirectUri = this.Configuration["Authentication:AzureAd:PostLogoutRedirectUri"];
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                });
+            }
 
-			app.UseMvc(
+            app.UseMvc(
 				routes =>
 					{ routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}"); });
 		}
 
 		public static void Main(string[] args) => WebApplication.Run<Startup>(args);
 	}
+
+   
 }
