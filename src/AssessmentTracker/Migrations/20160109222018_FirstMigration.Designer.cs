@@ -8,7 +8,7 @@ using AssessmentTracker.DataAccess;
 namespace AssessmentTracker.Migrations
 {
     [DbContext(typeof(AssessmentDbContext))]
-    [Migration("20151208043749_FirstMigration")]
+    [Migration("20160109222018_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,7 +28,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<int>("QuestionId");
 
-                    b.Property<int>("Rating");
+                    b.Property<float>("Rating");
 
                     b.HasKey("Id");
                 });
@@ -40,7 +40,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<int>("AssessmentFileId");
+                    b.Property<int?>("AssessmentFileId");
 
                     b.Property<DateTime>("DateOfDeadline");
 
@@ -52,7 +52,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<int>("Position");
 
-                    b.Property<int>("ResumeFileId");
+                    b.Property<int?>("ResumeFileId");
 
                     b.HasKey("Id");
                 });

@@ -27,7 +27,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<int>("QuestionId");
 
-                    b.Property<int>("Rating");
+                    b.Property<float>("Rating");
 
                     b.HasKey("Id");
                 });
@@ -39,7 +39,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<bool>("Active");
 
-                    b.Property<int>("AssessmentFileId");
+                    b.Property<int?>("AssessmentFileId");
 
                     b.Property<DateTime>("DateOfDeadline");
 
@@ -51,7 +51,7 @@ namespace AssessmentTracker.Migrations
 
                     b.Property<int>("Position");
 
-                    b.Property<int>("ResumeFileId");
+                    b.Property<int?>("ResumeFileId");
 
                     b.HasKey("Id");
                 });

@@ -27,12 +27,12 @@ namespace AssessmentTracker.DataAccess
 
 		public Positions Position { get; set; }
 
-		public int AssessmentFileId { get; set; }
+		public int? AssessmentFileId { get; set; }
 
 		[ForeignKey("AssessmentFileId")]
 		public virtual DbFile AssessmentDbFile { get; set; }
 
-		public int ResumeFileId { get; set; }
+		public int? ResumeFileId { get; set; }
 
 		[ForeignKey("ResumeFileId")]
 		public virtual DbFile ResumeDbFile { get; set; }

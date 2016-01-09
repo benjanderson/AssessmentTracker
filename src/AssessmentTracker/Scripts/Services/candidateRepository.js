@@ -2,7 +2,7 @@
 	"$http", "$q", function ($http, $q) {
 		var svc = this;
 
-		function getCanidate(id) {
+		function getCandidate(id) {
 			return $http.get("assessment", {
 				params: { assessmentId: id }
 			}).then((result) => {
@@ -17,7 +17,7 @@
 				});
 		}
 
-		function saveCanidate(canidate, assessmentFile, resumeFile, httpMethod) {
+		function saveCandidate(candidate, assessmentFile, resumeFile, httpMethod) {
 			return $http({
 				method: httpMethod,
 				url: "assessment",
@@ -32,16 +32,24 @@
 					}
 					return formData;
 				},
-				data: { model: canidate, files: [assessmentFile, resumeFile] }
+				data: { model: candidate, files: [assessmentFile, resumeFile] }
 			});
 		};
 
 		function resumeUrl(resumeFileId, resumeFileName) {
-			return "files/" + resumeFileId + "/" + resumeFileName;
+		    if (resumeFileId && resumeFileName) {
+		        return "files/" + resumeFileId + "/" + resumeFileName;
+		    } else {
+		        return false;
+		    }
 		}
 
 		function assessmentUrl(assessmentFileId, assessmentFileName) {
-			return "files/" + assessmentFileId + "/" + assessmentFileName;
+		    if (assessmentFileId && assessmentFileName) {
+		        return "files/" + assessmentFileId + "/" + assessmentFileName;
+		    } else {
+		        return false;
+		    }
 		}
 
 		function getQuestions(assessmentId) {
@@ -72,8 +80,8 @@
 			});
 		}
 
-		svc.getCanidate = getCanidate;
-		svc.saveCanidate = saveCanidate;
+		svc.getCandidate = getCandidate;
+		svc.saveCandidate = saveCandidate;
 		svc.getOpenAssessments = getOpenAssessments;
 		svc.resumeUrl = resumeUrl;
 		svc.assessmentUrl = assessmentUrl;

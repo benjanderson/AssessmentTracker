@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace AssessmentTracker.Models
 {
 
-	public class Canidate
+	public class Candidate
 	{
 		public int Id { get; set; }
 
@@ -22,11 +22,11 @@ namespace AssessmentTracker.Models
 
 		public bool Active { get; set; }
 
-		public int AssessmentFileId { get; set; }
+		public int? AssessmentFileId { get; set; }
 
 		public string AssessmentFileName { get; set; }
 
-		public int ResumeFileId { get; set; }
+		public int? ResumeFileId { get; set; }
 
 		public string ResumeFileName { get; set; }
 	}

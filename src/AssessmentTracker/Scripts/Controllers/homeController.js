@@ -1,6 +1,6 @@
-﻿module.exports = ["canidateRepository", function (canidateRepository) {
+﻿module.exports = ["candidateRepository", function (candidateRepository) {
 	var ctrl = this;
-	canidateRepository.getOpenAssessments().then((data) => {
+	candidateRepository.getOpenAssessments().then((data) => {
 		ctrl.openAssessments = data;
 	});
 }];

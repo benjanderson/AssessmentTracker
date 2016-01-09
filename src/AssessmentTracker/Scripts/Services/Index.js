@@ -1,2 +1,2 @@
 ﻿var app = require("angular").module("assessment");
-app.factory("canidateRepository", require("./canidateRepository"));
+app.factory("candidateRepository", require("./candidateRepository"));

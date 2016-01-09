@@ -16,7 +16,7 @@ namespace AssessmentTracker.DataAccess
 		[ForeignKey("PersonAssessmentId")]
 		public PersonAssessment PersonAssessment { get; set; }
 
-		public int Rating { get; set; }
+		public float Rating { get; set; }
 
 		public string Comments { get; set; }
 	}

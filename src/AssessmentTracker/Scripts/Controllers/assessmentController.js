@@ -1,16 +1,16 @@
 ﻿var toastr = require("toastr");
 var _ = require("underscore");
-module.exports = ["$stateParams", "canidateRepository", "$state", "$scope", function ($stateParams, canidateRepository, $state, $scope) {
+module.exports = ["$stateParams", "candidateRepository", "$state", "$scope", function ($stateParams, candidateRepository, $state, $scope) {
 	var ctrl = this;
 	var id = $stateParams.assessmentId;
 
-	canidateRepository.getCanidate(id).then((data) => {
+	candidateRepository.getCandidate(id).then((data) => {
 		ctrl.assessment = data;
-		ctrl.resumeUrl = canidateRepository.resumeUrl(data.resumeFileId, data.resumeFileName);
-		ctrl.assessmentUrl = canidateRepository.assessmentUrl(data.assessmentFileId, data.assessmentFileName);
+		ctrl.resumeUrl = candidateRepository.resumeUrl(data.resumeFileId, data.resumeFileName);
+		ctrl.assessmentUrl = candidateRepository.assessmentUrl(data.assessmentFileId, data.assessmentFileName);
 	});
 
-	canidateRepository.getQuestions(id).then((data) => {
+	candidateRepository.getQuestions(id).then((data) => {
 		ctrl.questions = data;
 	});
 
@@ -30,7 +30,7 @@ module.exports = ["$stateParams", "canidateRepository", "$state", "$scope", func
 	}
 
 	ctrl.save = () => {
-		canidateRepository.saveQuestions(id, ctrl.questions).then(() => {
+		candidateRepository.saveQuestions(id, ctrl.questions).then(() => {
 			$state.go("home");
 			toastr.success('Successfully Saved!');
 		}, () => {
@@ -41,7 +41,7 @@ module.exports = ["$stateParams", "canidateRepository", "$state", "$scope", func
 	$scope.modalVisible = false;
 	ctrl.showModal = () => {
 		$scope.modalVisible = !$scope.modalVisible;
-		canidateRepository.getAssessmentSummary(id).then((result) => {
+		candidateRepository.getAssessmentSummary(id).then((result) => {
 			ctrl.summary = result;
 		});
 	};

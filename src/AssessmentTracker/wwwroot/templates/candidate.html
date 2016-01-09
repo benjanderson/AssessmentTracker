@@ -1,54 +1,54 @@
 ﻿<div class="container">
-	<h1>New Canidate</h1>
+	<h1>New Candidate</h1>
 
-	<form name="canidate" role="form" ng-submit="can.save()">
+	<form name="candidate" role="form" ng-submit="can.save()">
 		<div class="row">
 			<div class="col-md-4">
 				<div class="form-group">
 					<label for="name">Name</label>
-					<input type="text" class="form-control" id="name" placeholder="Canidate Name" ng-model="can.canidate.name" required focus-if>
+					<input type="text" class="form-control" id="name" placeholder="Candidate Name" ng-model="can.candidate.name" required focus-if>
 				</div>
 				<div class="form-group">
 					<label for="assessDate">Date of Submission</label>
-					<input type="date" class="form-control" id="assessDate" ng-model="can.canidate.dateOfAssessment" required>
+					<input type="date" class="form-control" id="assessDate" ng-model="can.candidate.dateOfAssessment" required>
 				</div>
 				<div class="form-group">
 					<label for="dueDate">Evaluation Deadline</label>
-					<input type="date" class="form-control" id="dueDate" ng-model="can.canidate.dateOfDeadline" required>
+					<input type="date" class="form-control" id="dueDate" ng-model="can.candidate.dateOfDeadline" required>
 				</div>
 				<div class="form-group" show-validation>
 					<label for="position">Position</label>
-					<select class="form-control" id="position" name="position" ng-model="can.canidate.position" ng-options="option.text for option in can.positions track by option.value" required>
+					<select class="form-control" id="position" name="position" ng-model="can.candidate.position" ng-options="option.text for option in can.positions track by option.value" required>
 						<option></option>
 					</select>
 				</div>
 				<div class="form-group" show-validation>
 					<label for="notes">Notes</label>
-					<textarea id="notes" name="notes" class="form-control" rows="8" ng-model="can.canidate.notes"></textarea>
+					<textarea id="notes" name="notes" class="form-control" rows="8" ng-model="can.candidate.notes"></textarea>
 				</div>
 				<div class="form-group" ng-if="can.showFiles">
 					<label for="assessment">Assessment</label>
-					<input type="file" id="assessment" file-upload="can.assessmentUpload" required>
+					<input type="file" id="assessment" file-upload="can.assessmentUpload">
 					<p class="help-block">Archive of assessment project</p>
 				</div>
 				<div class="form-group" ng-if="can.showFiles">
 					<label for="resume">Resume</label>
-					<input type="file" id="resume" file-upload="can.resumeUpload" required>
+					<input type="file" id="resume" file-upload="can.resumeUpload">
 				</div>
 				<div ng-if="!can.showFiles">
 					<button class="btn btn-default" ng-click="can.replaceFiles()">
 						<i class="fa fa-file"></i> Replace Files
 					</button>
 					<div>
-						<a ng-bind="can.canidate.assessmentFileName" ng-href="{{ can.assessmentUrl }}"></a>
+						<a ng-bind="can.candidate.assessmentFileName" ng-href="{{ can.assessmentUrl }}"></a>
 					</div>
 					<div>
-						<a ng-bind="can.canidate.resumeFileName" ng-href="{{ can.resumeUrl }}"></a>
+						<a ng-bind="can.candidate.resumeFileName" ng-href="{{ can.resumeUrl }}"></a>
 					</div>
 				</div>
 				<div class="checkbox">
 					<label>
-						<input type="checkbox" ng-model="can.canidate.active"> Active
+						<input type="checkbox" ng-model="can.candidate.active"> Active
 					</label>
 				</div>
 				<button type="submit" class="btn btn-success">Save</button>

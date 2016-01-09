@@ -54,13 +54,13 @@ namespace AssessmentTracker.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Active = table.Column<bool>(nullable: false),
-                    AssessmentFileId = table.Column<int>(nullable: false),
+                    AssessmentFileId = table.Column<int>(nullable: true),
                     DateOfDeadline = table.Column<DateTime>(nullable: false),
                     DateOfSubmission = table.Column<DateTime>(nullable: false),
                     Notes = table.Column<string>(nullable: true),
                     PersonId = table.Column<int>(nullable: false),
                     Position = table.Column<int>(nullable: false),
-                    ResumeFileId = table.Column<int>(nullable: false)
+                    ResumeFileId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,17 +69,20 @@ namespace AssessmentTracker.Migrations
                         name: "FK_Assessment_DbFile_AssessmentFileId",
                         column: x => x.AssessmentFileId,
                         principalTable: "DbFile",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Assessment_Person_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Person",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Assessment_DbFile_ResumeFileId",
                         column: x => x.ResumeFileId,
                         principalTable: "DbFile",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
                 name: "PersonAssessment",
@@ -97,12 +100,14 @@ namespace AssessmentTracker.Migrations
                         name: "FK_PersonAssessment_Assessment_AssessmentId",
                         column: x => x.AssessmentId,
                         principalTable: "Assessment",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PersonAssessment_Person_PersonId",
                         column: x => x.PersonId,
                         principalTable: "Person",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
                 name: "Answers",
@@ -113,7 +118,7 @@ namespace AssessmentTracker.Migrations
                     Comments = table.Column<string>(nullable: true),
                     PersonAssessmentId = table.Column<int>(nullable: false),
                     QuestionId = table.Column<int>(nullable: false),
-                    Rating = table.Column<int>(nullable: false)
+                    Rating = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -122,12 +127,14 @@ namespace AssessmentTracker.Migrations
                         name: "FK_Answers_PersonAssessment_PersonAssessmentId",
                         column: x => x.PersonAssessmentId,
                         principalTable: "PersonAssessment",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Answers_Question_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Question",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
         }
 

@@ -7,15 +7,15 @@
 			templateUrl: 'templates/home.html',
 			controller: "homeController as home"
 		})
-		.state('newCanidate', {
-			url: '/canidate/0',
-			templateUrl: 'templates/canidate.html',
-			controller: "canidateController as can"
+		.state('newCandidate', {
+			url: '/candidate/0',
+			templateUrl: 'templates/candidate.html',
+			controller: "candidateController as can"
 		})
-		.state('editCanidate', {
-			url: '/canidate/:assessmentId',
-			templateUrl: 'templates/canidate.html',
-			controller: "canidateController as can"
+		.state('editCandidate', {
+			url: '/candidate/:assessmentId',
+			templateUrl: 'templates/candidate.html',
+			controller: "candidateController as can"
 		})
 		.state("assessment", {
 			url: "/assessment/:assessmentId",
